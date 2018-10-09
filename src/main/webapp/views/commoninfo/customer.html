@@ -1,0 +1,113 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>客户信息</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css"
+	media="all">
+<link rel="stylesheet" href="../../../layuiadmin/style/admin.css"
+	media="all">
+<script type="text/javascript"
+	src="http://api.map.baidu.com/api?v=2.0&ak=1KXLwdlSBToh33v8RoCc7FaOzhNlvdVj"></script>
+<style type="text/css">
+#allmap {
+	width: 100%;
+	height: 850px;
+}
+</style>
+</head>
+<body>
+	<div class="layui-row">
+		<!-- 填充内容 -->
+		<div class="layui-col-md8">
+			<div class="layui-card">
+				<div id="allmap"></div>
+			</div>
+		</div>
+		<div class="layui-col-md4">
+			<div class="layui-card">
+				<div class="layui-row">
+					<div class="layui-btn-container">
+						<button class="layui-btn layui-btn-fluid layui-btn-normal">客户信息</button>
+					</div>
+				</div>
+				<form class="layui-form" action="">
+					<div class="layui-form-item">
+						<label class="layui-form-label layui-btn layui-btn-normal">客户姓名</label>
+						<div class="layui-input-block">
+							<select name="city" >
+								<option value="0">中国航天科技集团</option>
+								<option value="1">中国航天科工集团</option>
+								<option value="2">中国人民解放军</option>
+							</select>
+						</div>
+					</div>
+					<div class="layui-form-item">
+						<label class="layui-form-label layui-btn layui-btn-normal">客户地区</label>
+						<div class="layui-input-block">
+							<select name="city" >
+								<option value="0">北京</option>
+								<option value="1">上海</option>
+								<option value="2">广州</option>
+								<option value="3">深圳</option>
+								<option value="4">杭州</option>
+							</select>
+						</div>
+					</div>
+				</form>
+				 <table class="layui-hide" id="test-table-page"></table>
+			</div>
+		</div>
+	</div>
+
+	<script src="../../../layuiadmin/layui/layui.js"></script>
+	<script>
+	layui.config({
+	    base: '../../../layuiadmin/' //静态资源所在路径
+	  }).extend({
+	    index: 'lib/index' //主入口模块
+	  }).use(['index', 'form','table'], function(){
+	    var admin = layui.admin
+	    ,table = layui.table;
+	  
+	    table.render({
+	      elem: '#test-table-page'
+	    	  ,height: 700
+	      ,url: '../../common/getCustomers'
+	      ,cols: [[
+	        {field:'id', width:80, title: '序号', sort: true}
+	        ,{field:'customer_name', width:80, title: '电站名称'}
+	        ,{field:'customer_addstress', width:80, title: '地址', sort: true}
+	        ,{field:'customer_contact_name', width:80, title: '联系人'}
+	        ,{field:'customer_contact', title: '联系方式', minWidth: 150}
+	      ]]
+	      ,page: true
+	    });
+	  });
+	</script>
+	<script type="text/javascript">
+		// 百度地图API功能
+		var map = new BMap.Map("allmap");
+		map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);
+		var top_left_control = new BMap.ScaleControl({
+			anchor : BMAP_ANCHOR_TOP_LEFT
+		});// 左上角，添加比例尺
+		var top_left_navigation = new BMap.NavigationControl(); //左上角，添加默认缩放平移控件
+		var top_right_navigation = new BMap.NavigationControl({
+			anchor : BMAP_ANCHOR_TOP_RIGHT,
+			type : BMAP_NAVIGATION_CONTROL_SMALL
+		}); //右上角，仅包含平移和缩放按钮
+		map.addControl(top_left_control);
+		map.addControl(top_left_navigation);
+		map.addControl(top_right_navigation);
+		map.enableScrollWheelZoom();
+	</script>
+
+</body>
+</html>
