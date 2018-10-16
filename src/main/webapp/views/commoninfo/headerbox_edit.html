@@ -1,0 +1,141 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>光伏组件-添加</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css"
+	media="all">
+<link rel="stylesheet" href="../../../layuiadmin/style/admin.css"
+	media="all">
+
+<link rel="stylesheet" href="../../css/views/common.css" media="all">
+</head>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-row layui-col-space15">
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-body">
+					<div class="layui-card-header layui-form">
+						<select lay-filter="select1" name="type">
+							#for(data:list)
+								#if(data.id==id){
+								<option value=#(data.id) selected>#(data.id)#("--")#(data.vender)#("--")#(data.model)</option>
+								}
+								#else
+								<option value=#(data.id)>#(data.id)#("--")#(data.vender)#("--")#(data.model)</option>
+								#end
+							#end
+						</select>
+					</div>
+						<table class="layui-table layadmin-text-center "
+							id="test-table-toolbar" lay-size="sm" lay-even >
+							<colgroup>
+								<col width="200">
+								<col width="250">
+								<col>
+							</colgroup>
+							<tbody class="text-align:center;">
+								<tr>
+									<td colspan="2">制造厂家</td>
+									<td>#(model.render ??)</td>
+								</tr>
+								<tr>
+									<td colspan="2">产品型号</td>
+									
+									<td>#(model.model ??)</td>
+								</tr>
+								<tr>
+									<td colspan="2">产品类型</td>
+									<td>#(model.type ??)</td>
+								</tr>
+								<tr>
+									<td colspan="2">输入路数</td>
+									<td>#(model.input_way ??)</td>
+								</tr>
+								<tr>
+									<td colspan="2">输入范围</td>
+									<td>#(model.input_range ??)</td>
+								</tr>
+								<tr>
+									<td colspan="2">额定工作电压</td>
+									<td>#(model.rated_operational_voltage ??)</td>
+								</tr>
+								<tr>
+									<td colspan="2">反应时间</td>
+									<td>#(model.reaction_time ??)</td>
+								</tr>
+								<tr>
+									<td colspan="2">测量精度</td>
+									<td>#(model.measure ??)</td>
+								</tr>
+								<tr>
+									<td colspan="2">通讯</td>
+									<td>#(model.communicate ??)</td>
+								</tr>
+								<tr>
+									<td rowspan="3">附加功能</td>
+									<td>继电器输出</td>
+									<td>#(model.relay_output ??)</td>
+								</tr>
+								<tr>
+									<td>开关量输入</td>
+									<td>#(model.on_off_input ??)</td>
+								</tr>
+								<tr>
+									<td>模拟量输入</td>
+									<td>#(model.read_analogue_input ??)</td>
+								</tr>
+								<tr>
+									<td colspan="2">湿度/温度</td>
+									<td>#(model.hum_temp ??)</td>
+								</tr>
+								<tr>
+									<td colspan="2">适用海拔</td>
+									<td>#(model.apply_altitude ??)</td>
+								</tr>
+								<tr>
+									<td colspan="2">绝缘电阻</td>
+									<td>#(model.insulation_resistance ??)</td>
+								</tr>
+								<tr>
+									<td colspan="2">辅助电源</td>
+									<td>#(model.assistant_power_supply ??)</td>
+								</tr>
+								<tr>
+									<td colspan="2">机壳防护等级</td>
+									<td>#(model.chassis_protection_level ??)</td>
+								</tr>
+								<tr>
+									<td colspan="2">重量</td>
+									<td>#(model.weight ??)</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="../../layuiadmin/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base : '../../layuiadmin/' //静态资源所在路径
+		}).extend({
+			index : 'lib/index' //主入口模块
+		}).use([ 'index', 'table' ], function() {
+			var admin = layui.admin, table = layui.table ,form=layui.form;
+			form.on('select(select1)', function(data){
+					window.location.href="../../common/getHeaderBox?id="+data.value;//页面跳转并传参  
+				});
+		});
+	</script>
+</body>
+</html>

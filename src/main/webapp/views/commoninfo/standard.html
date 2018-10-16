@@ -1,0 +1,136 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>检测设备信息</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css"
+	media="all">
+<link rel="stylesheet" href="../../../layuiadmin/style/admin.css"
+	media="all">
+
+<link rel="stylesheet" href="../../css/views/common.css" media="all">
+</head>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-row layui-col-space15">
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-body">
+						<table class="layui-hide layadmin-text-center"
+							id="test-table-toolbar" lay-filter="test-table-toolbar"
+							lay-size="lg"></table>
+						<script type="text/html" id="test-table-toolbar-barDemo">
+              			<a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+              			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            			</script>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="../../layuiadmin/layui/layui.js"></script>
+	<script>
+		layui
+				.config({
+					base : '../../layuiadmin/' //静态资源所在路径
+				})
+				.extend({
+					index : 'lib/index' //主入口模块
+				})
+				.use(
+						[ 'index', 'table' ],
+						function() {
+							var admin = layui.admin, table = layui.table;
+							table
+									.render({
+										elem : '#test-table-toolbar',
+										url : 'getTestStBasisDevice',
+										toolbar : '#test-table-toolbar-toolbarDemo',
+										height : 'full-100',
+										limits : [10, 50, 100, 500 ],
+										title : '用户数据表',
+										cols : [ [
+												{
+													field : 'id',
+													title : '序号',
+													edit : 'text',
+													width: 80
+												},
+												{
+													field : 'standard',
+													title : '标准分级'
+												},
+												{
+													field : 'standard_number',
+													title : '标准编号'
+												
+												},
+												{
+													field : 'standard_name',
+													title : '标准名称'
+												},
+												{
+													field : 'standard_file',
+													title : '标准查看',
+													templet : function(res) {
+														return '<a class="layui-btn layui-btn-xs">查看</a>'
+													}
+												}] ],
+										page : true
+									});
+
+							//头工具栏事件
+							table.on('toolbar(test-table-toolbar)',
+									function(obj) {
+										var checkStatus = table
+												.checkStatus(obj.config.id);
+										switch (obj.event) {
+										case 'getCheckData':
+											var data = checkStatus.data;
+											layer.alert(JSON.stringify(data));
+											break;
+										case 'getCheckLength':
+											var data = checkStatus.data;
+											layer.msg('选中了：' + data.length
+													+ ' 个');
+											break;
+										case 'isAll':
+											layer.msg(checkStatus.isAll ? '全选'
+													: '未全选');
+											break;
+										}
+										;
+									});
+
+							//监听行工具事件
+							table.on('tool(test-table-toolbar)', function(obj) {
+								var data = obj.data;
+								if (obj.event === 'del') {
+									layer.confirm('真的删除行么', function(index) {
+										obj.del();
+										layer.close(index);
+									});
+								} else if (obj.event === 'edit') {
+									layer.prompt({
+										formType : 2,
+										value : data.email
+									}, function(value, index) {
+										obj.update({
+											email : value
+										});
+										layer.close(index);
+									});
+								}
+							});
+
+						});
+	</script>
+</body>
+</html>

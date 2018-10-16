@@ -1,0 +1,128 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>静止无功发射器-数据</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css"
+	media="all">
+<link rel="stylesheet" href="../../../layuiadmin/style/admin.css"
+	media="all">
+
+<link rel="stylesheet" href="../../css/views/common.css" media="all">
+</head>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-row layui-col-space15">
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-body">
+					<div class="layui-card-header layui-form">
+						<select lay-filter="select1" name="type">
+							#for(data:list)
+								#if(data.id==id){
+								<option value=#(data.id) selected>#(data.id)#("--")#(data.vender)#("--")#(data.model)</option>
+								}
+								#else
+								<option value=#(data.id)>#(data.id)#("--")#(data.vender)#("--")#(data.model)</option>
+								#end
+							#end
+						</select>
+					</div>
+						<table class="layui-table layadmin-text-center "
+							id="test-table-toolbar" lay-size="sm" lay-even >
+							<colgroup>
+								<col width="100">
+								<col width="250">
+								<col>
+							</colgroup>
+							<tbody class="text-align:center;">
+								<tr>
+									<td >制造厂家</td>
+									<td>#(model.render ??)</td>
+								</tr>
+								<tr>
+									<td >产品型号</td>
+									
+									<td>#(model.model ??)</td>
+								</tr>
+								<tr>
+									<td >额定工作电压</td>
+									
+									<td>#(model.rated_operational_voltage ??)</td>
+								</tr>
+								
+								<tr>
+									<td >额定容量</td>
+									
+									<td>#(model.rated_capacity ??)</td>
+								</tr>
+							
+								<tr>
+									<td >输出无功范围</td>
+									
+									<td>#(model.output_reactive_power_range ??)</td>
+								</tr>
+								<tr>
+									<td >控制器响应时间</td>
+									
+									<td>#(model.controller_response_time ??)</td>
+								</tr>
+								<tr>
+									<td >输出电压总畸变率(并网前)</td>
+									
+									<td>#(model.total_distortion_rate_output_voltage_before ??)</td>
+								</tr>
+								<tr>
+									<td >输出电压总畸变率(并网后)</td>
+									
+									<td>#(model.total_distortion_rate_output_voltage_after ??)</td>
+								</tr>
+								<tr>
+									<td >输出电流总畸变率</td>
+									
+									<td>#(model.total_distortion_rate_output_current ??)</td>
+								</tr>
+								<tr>
+									<td >输出电压不平衡度</td>
+									
+									<td>#(model.output_voltage_unbalance ??)</td>
+								</tr>
+								<tr>
+									<td >效率</td>
+									
+									<td>#(model.efficiency ??)</td>
+								</tr>
+								<tr>
+									<td >运行温度</td>
+									
+									<td>#(model.operating_temperature ??)</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="../../layuiadmin/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base : '../../layuiadmin/' //静态资源所在路径
+		}).extend({
+			index : 'lib/index' //主入口模块
+		}).use([ 'index', 'table' ], function() {
+			var admin = layui.admin, table = layui.table ,form=layui.form;
+			form.on('select(select1)', function(data){
+					window.location.href="../../common/getSvg?id="+data.value;//页面跳转并传参  
+				});
+		});
+	</script>
+</body>
+</html>

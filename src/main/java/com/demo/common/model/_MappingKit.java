@@ -16,7 +16,14 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 public class _MappingKit {
 	
 	public static void mapping(ActiveRecordPlugin arp) {
+		arp.addMapping("basic_infomation", "id", BasicInfomation.class);
 		arp.addMapping("customer", "id", Customer.class);
+		arp.addMapping("detection_device", "id", DetectionDevice.class);
+		arp.addMapping("serve_info", "id", ServeInfo.class);
+		arp.addMapping("serve_user", "id", ServeUser.class);
+		arp.addMapping("team", "id", Team.class);
+		arp.addMapping("test_st_basis", "id", TestStBasis.class);
+		arp.addMapping("user", "id", User.class);
 	}
 }
 

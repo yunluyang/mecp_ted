@@ -64,7 +64,7 @@
           </li>
           <li class="layui-nav-item" lay-unselect>
             <a href="javascript:;">
-              <cite>贤心</cite>
+              <cite>#(user.username)</cite>
             </a>
             <dl class="layui-nav-child">
               <dd><a lay-href="set/user/info.html">基本资料</a></dd>
@@ -86,8 +86,8 @@
       <!-- 侧边菜单 -->
       <div class="layui-side layui-side-menu">
         <div class="layui-side-scroll">
-          <div class="layui-logo" lay-href="commoninfo/customer.html">
-            <span>layuiAdmin</span>
+          <div class="layui-logo" lay-href="../views/commoninfo/customer2.html">
+            <span>旻投电力检测评估平台</span>
           </div>
           
           <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu" lay-filter="layadmin-system-side-menu">
@@ -98,30 +98,30 @@
               </a>
               <dl class="layui-nav-child">
                 <dd data-name="console" class="layui-this">
-                  <a lay-href="commoninfo/customer.html">客户信息</a>
+                  <a lay-href="../views/commoninfo/customer2.html">客户信息</a>
                 </dd>
                 <dd data-name="console">
-                  <a lay-href="home/homepage1.html">技术服务团队</a>
+                  <a lay-href="../common/teamlistHtml">技术服务团队</a>
                 </dd>
                 <dd data-name="console">
-                  <a lay-href="home/homepage2.html">检测设备信息</a>
+                  <a lay-href="../common/detectionDeviceHtml">检测设备信息</a>
                 </dd>
                 <dd data-name="console">
-                  <a lay-href="home/homepage3.html">检测标准及依据</a>
+                  <a lay-href="../common/testStBasisHtml">检测标准及依据</a>
                 </dd>
                 <dd data-name="console">
-                  <a lay-href="home/homepage4.html">基础信息</a>
+                  <a lay-href="../views/commoninfo/basicinfo.html">基础信息</a>
                 </dd>
               </dl>
             </li>
-            <li data-name="get" class="layui-nav-item">
-              <a href="javascript:;" lay-href="//www.layui.com/admin/#get" lay-tips="授权" lay-direction="2">
+            <li data-name="servicescheme" class="layui-nav-item">
+              <a lay-href="../servicescheme/index"  lay-tips="服务方案" lay-direction="2">
                 <i class="layui-icon layui-icon-auz"></i>
                 <cite>服务方案</cite>
               </a>
             </li>
             <li data-name="get" class="layui-nav-item">
-              <a href="javascript:;" lay-href="//www.layui.com/admin/#get" lay-tips="授权" lay-direction="2">
+              <a lay-href="../serveinfo/index" lay-tips="服务内容" lay-direction="2">
                 <i class="layui-icon layui-icon-component"></i>
                 <cite>服务内容</cite>
               </a>
@@ -200,7 +200,7 @@
         </div>
         <div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs">
           <ul class="layui-tab-title" id="LAY_app_tabsheader">
-            <li lay-id="commoninfo/customer.html" lay-attr="commoninfo/customer.html" class="layui-this"><i class="layui-icon layui-icon-home"></i></li>
+            <li lay-id="../views/commoninfo/customer2.html" lay-attr="commoninfo/customer2.html" class="layui-this"><i class="layui-icon layui-icon-home"></i></li>
           </ul>
         </div>
       </div>
@@ -209,7 +209,7 @@
       <!-- 主体内容 -->
       <div class="layui-body" id="LAY_app_body">
         <div class="layadmin-tabsbody-item layui-show">
-          <iframe src="commoninfo/customer.html" frameborder="0" class="layadmin-iframe"></iframe>
+          <iframe src="../views/commoninfo/customer2.html" frameborder="0" class="layadmin-iframe"></iframe>
         </div>
       </div>
       

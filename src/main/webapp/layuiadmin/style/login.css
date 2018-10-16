@@ -1,19 +1,17 @@
 /**
 
- @Name：layuiAdmin 登入注册页
- @Author：贤心
- @Site：http://www.layui.com/admin/
- @License：GPL-2
+ @Name：登入注册页
+ @Author：ly
  
  */
  
-html,body,#LAY_app{height:100%;}
+html,body,#LAY_app{height:100%;background:url(../../img/5b4f630ce6d29.jpg) no-repeat;}
 .layui-layout-body{overflow: auto;}
  
 #LAY-user-login,
 .layadmin-user-display-show{display: block !important;} 
 .layadmin-user-login{position: relative; left: 0; top: 0; padding: 110px 0; min-height: 100%; box-sizing: border-box;}
-.layadmin-user-login-main{width: 375px; margin: 0 auto; box-sizing: border-box;}
+.layadmin-user-login-main{width: 375px; margin: 0 auto; box-sizing: border-box; background-color: #ffffff;}
 .layadmin-user-login-box{padding: 20px;}
 .layadmin-user-login-header{text-align: center;}
 .layadmin-user-login-header h2{margin-bottom: 10px; font-weight: 300; font-size: 30px; color: #000;}

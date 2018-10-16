@@ -1,0 +1,25 @@
+/* 团队面板 */
+.layadmin-maillist-fluid .layadmin-contact-box{padding:20px;background-color: #fff;
+    border: 1px solid #000000;overflow: hidden;}
+.layadmin-contact-box{height: 240px;}
+.layadmin-maillist-fluid .layadmin-text-center{text-align: center;color:black}
+.layadmin-maillist-fluid .layadmin-font-blod{font-weight: 600;} 
+.layadmin-maillist-fluid .layadmin-maillist-img{margin-top: 5px;}
+.layadmin-maillist-fluid .layadmin-title{margin:5px 0 10px 0;}
+.layadmin-maillist-fluid .layadmin-textimg{line-height: 25px;margin-bottom: 10px;}
+.layadmin-maillist-fluid .layadmin-address{line-height: 1.5;margin-bottom: 20px;}
+.layadmin-maillist-fluid .layadmin-padding-left20{padding-left: 20px;}
+
+
+.layui-table-cell {height: auto;line-height: 28px;text-align:center; color: black;}
+table{text-align:center;}
+td{color: black;}
+
+/* 基础信息 */
+.layadmin-cmdlist-fluid{padding-bottom: 50px;text-align: center;}
+.cmdlist-container{background: #fff;border:1px;}
+.cmdlist-container:hover{border:1px solid #e8e8e8;}
+.cmdlist-container img{width: 112px;height: 165px;}
+.cmdlist-text{padding:10px;}
+.cmdlist-text .info{height: 30px;font-size: 20px;line-height: 20px;width: 100%;overflow: hidden;color: #111;text-align:center;}
+#demo0{text-align: center;}

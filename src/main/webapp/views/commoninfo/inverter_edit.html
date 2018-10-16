@@ -1,0 +1,255 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>逆变器-数据</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css"
+	media="all">
+<link rel="stylesheet" href="../../../layuiadmin/style/admin.css"
+	media="all">
+
+<link rel="stylesheet" href="../../css/views/common.css" media="all">
+</head>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-row layui-col-space15">
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-header layui-form">
+						<select lay-filter="select1" name="type">
+							#for(data:list)
+								#if(data.id==id){
+								<option value=#(data.id) selected>#(data.id)#("--")#(data.vender)#("--")#(data.model)</option>
+								}
+								#else
+								<option value=#(data.id)>#(data.id)#("--")#(data.vender)#("--")#(data.model)</option>
+								#end
+							#end
+						</select>
+					</div>
+					<div class="layui-card-body">
+						<table class="layui-table layadmin-text-center "
+							id="test-table-toolbar" lay-size="sm" lay-even>
+							<colgroup>
+								<col width="200">
+								<col width="250">
+								<col>
+							</colgroup>
+							<tbody class="text-align:center;">
+								<tr>
+									<td colspan="2">制造厂家</td>
+									<td>#(model.render?? "-")</td>
+								</tr>
+								<tr>
+									<td colspan="2">产品型号</td>
+									<td>#(model.model?? "-")</td>
+								</tr>
+								<tr>
+									<td colspan="3"><h2>逆变器技术参数</h2></td>
+								</tr>
+								<tr>
+									<td rowspan="8"><h2>直流侧参数</h2></td>
+									<td>直流母线启动电压(V)</td>
+									<td>#(model.DC_1?? "-")</td>
+								</tr>
+								<tr>
+									<td>最低直流母线电压(V)</td>
+									<td>#(model.DC_2?? "-")</td>
+								</tr>
+								<tr>
+									<td>最高直流母线电压(V)</td>
+									<td>#(model.DC_3?? "-")</td>
+								</tr>
+								<tr>
+									<td>最低MPPT工作电压(V)</td>
+									<td>#(model.DC_4?? "-")</td>
+								</tr>
+								<tr>
+									<td>最高MPPT工作电压(V)</td>
+									<td>#(model.DC_5?? "-")</td>
+								</tr>
+								<tr>
+									<td>最佳MPPT工作点电压(V)</td>
+									<td>#(model.DC_6?? "-")</td>
+								</tr>
+								<tr>
+									<td>最大输入电流(A)</td>
+									<td>#(model.DC_7?? "-")</td>
+								</tr>
+								<tr>
+									<td>直流母线电容(μF)</td>
+									<td>#(model.DC_8?? "-")</td>
+								</tr>
+								<tr>
+									<td rowspan="8"><h2>交流侧参数</h2></td>
+									<td>额定输出功率(KW)</td>
+									<td>#(model.AC_1?? "-")</td>
+								</tr>
+								<tr>
+									<td>最大输出功率(KW)</td>
+									<td>#(model.AC_2?? "-")</td>
+								</tr>
+								<tr>
+									<td>额定电压(V)</td>
+									<td>#(model.AC_3?? "-")</td>
+								</tr>
+								<tr>
+									<td>允许电压范围(V)</td>
+									<td>#(model.AC_4?? "-")</td>
+								</tr>
+								<tr>
+									<td>额定频率(Hz)</td>
+									<td>#(model.AC_5?? "-")</td>
+								</tr>
+								<tr>
+									<td>允许频率范围(Hz)</td>
+									<td>#(model.AC_6?? "-")</td>
+								</tr>
+								<tr>
+									<td>额定输出电流(A)</td>
+									<td>#(model.AC_7?? "-")</td>
+								</tr>
+								<tr>
+									<td>有无隔离变/升压变</td>
+									<td>
+										<div class="layui-form">
+											<input type="radio" name="AC_8" value=1 title="有"> <input
+												type="radio" name="AC_8" value=0 title="无">
+										</div>
+									</td>
+								</tr>
+
+								<tr>
+									<td rowspan="12"><h2>交系统特性参数</h2></td>
+									<td>最高转换效率(%)</td>
+									<td>#(model.sys_param_1?? "-")</td>
+								</tr>
+								<tr>
+									<td>运行环境温度范围(°C)</td>
+									<td>#(model.sys_param_2?? "-")</td>
+								</tr>
+								<tr>
+									<td>运行环境相对湿度(%)</td>
+									<td>#(model.sys_param_3?? "-")</td>
+								</tr>
+								<tr>
+									<td>满载工作最高海拔(m)</td>
+									<td>#(model.sys_param_4?? "-")</td>
+								</tr>
+								<tr>
+									<td>整机防护等级(IP)</td>
+									<td>#(model.sys_param_5?? "-")</td>
+								</tr>
+								<tr>
+									<td>整机净重量(kg)</td>
+									<td>#(model.sys_param_6?? "-")</td>
+								</tr>
+								<tr>
+									<td>人机交互界面</td>
+									<td><div class="layui-form">
+											<input type="radio" name="sys_param_7" value=0 title="按键式">
+											<input type="radio" name="sys_param_7" value=1 title="触摸式">
+										</div></td>
+								</tr>
+								<tr>
+									<td>是否具备急停功能</td>
+									<td>
+										<div class="layui-form">
+											<input type="radio" name="sys_param_8" value=1 title="有">
+											<input type="radio" name="sys_param_8" value=0 title="无">
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>运行冷却方式</td>
+									<td>
+										<div class="layui-form">
+											<input type="radio" name="sys_param_9" value=0 title="风冷">
+											<input type="radio" name="sys_param_9" value=1 title="水冷">
+											<input type="radio" name="sys_param_9" value=2 title="自冷">
+											<input type="radio" name="sys_param_9" value=3 title="其他">
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>外型尺寸(宽*高*深)(mm)</td>
+									<td>#(model.sys_param_10?? "-")</td>
+								</tr>
+								<tr>
+									<td>通讯接口</td>
+									<td>
+										<div class="layui-form">
+											<input type="radio" name="sys_param_11" value=0 title="RS232">
+											<input type="radio" name="sys_param_11" value=1 title="485">
+											<input type="radio" name="sys_param_11" value=2 title="以太网">
+											<input type="radio" name="sys_param_11" value=3 title="其他">
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td>保护功能种类</td>
+									<td>
+										<div class="layui-form">
+											<input type="checkbox" name="sys_param_12" value=0
+												title="过压保护"> <input type="checkbox"
+												name="sys_param_12" value=1 title="过载保护"> <input
+												type="checkbox" name="sys_param_12" value=2 title="短路保护">
+											<input type="checkbox" name="sys_param_12" value=3
+												title="过热保护"> <input type="checkbox"
+												name="sys_param_12" value=4 title="孤岛保护"> <input
+												type="checkbox" name="sys_param_12" value=5 title="直流接地保护">
+											<input type="checkbox" name="sys_param_12" value=6
+												title="极性反接保护">
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="../../layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript" src="../../js/jquery-1.4.4.min.js"></script>
+	<script>
+		layui.config({
+			base : '../../layuiadmin/' //静态资源所在路径
+		}).extend({
+			index : 'lib/index' //主入口模块
+		}).use([ 'index', 'table','form' ], function() {
+			var admin = layui.admin, table = layui.table ,form=layui.form;
+			form.on('select(select1)', function(data){
+					window.location.href="../../common/getInverter?id="+data.value;//页面跳转并传参  
+				});
+		});
+
+		
+
+		window.onload=function (){
+			 $("input[name='AC_8'][value=#(model.AC_8??)]").attr("checked",true); 
+			$("input[name='sys_param_7'][value=#(model.sys_param_7??)]").attr("checked",true); 
+			$("input[name='sys_param_8'][value=#(model.sys_param_8??)]").attr("checked",true); 
+			$("input[name='sys_param_9'][value=#(model.sys_param_9??)]").attr("checked",true); 
+			$("input[name='sys_param_11'][value=#(model.sys_param_11??)]").attr("checked",true); 
+
+			var length =#(model.sys_param_12?? "[ ]").length;
+			if(length!=0){
+				for(var i=0;i<#(model.sys_param_12?? "[ ]").length;i++){
+					var data = #(model.sys_param_12?? "[ ]")[i];
+					$("input[name='sys_param_12'][value="+data+"]").attr("checked",true); 
+				}  
+				}
+		}
+		
+		
+	</script>
+</body>
+</html>

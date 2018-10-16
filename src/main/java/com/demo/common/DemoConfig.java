@@ -1,6 +1,5 @@
 package com.demo.common;
 
-import com.demo.blog.BlogController;
 import com.demo.common.model._MappingKit;
 import com.demo.index.IndexController;
 import com.jfinal.config.Constants;
@@ -15,6 +14,8 @@ import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.template.Engine;
 import com.mecp.common.info.CommonInfoController;
+import com.mecp.service.info.ServeInfoController;
+import com.mecp.service.scheme.ServiceSchemeController;
 
 /**
  * 
@@ -36,7 +37,6 @@ public class DemoConfig extends JFinalConfig {
 		// 加载少量必要配置，随后可用PropKit.get(...)获取值
 		PropKit.use("a_little_config.txt");
 		me.setDevMode(PropKit.getBoolean("devMode", false));
-		
 		// 支持 Controller、Interceptor 之中使用 @Inject 注入业务层，并且自动实现 AOP
 		me.setInjectDependency(true);
 	}
@@ -45,7 +45,10 @@ public class DemoConfig extends JFinalConfig {
 	 * 配置路由
 	 */
 	public void configRoute(Routes me) {
+		me.add("/",IndexController.class);
 		me.add("/common", CommonInfoController.class);		
+		me.add("/servicescheme",ServiceSchemeController.class);
+		me.add("/serveinfo",ServeInfoController.class);	
 	}
 	
 	public void configEngine(Engine me) {
@@ -85,4 +88,19 @@ public class DemoConfig extends JFinalConfig {
 	public void configHandler(Handlers me) {
 		
 	}
+
+	@Override
+	public void afterJFinalStart() {
+		// TODO Auto-generated method stub
+		super.afterJFinalStart();
+	}
+
+	@Override
+	public void beforeJFinalStop() {
+		// TODO Auto-generated method stub
+		super.beforeJFinalStop();
+	}
+	
+	
+	
 }
