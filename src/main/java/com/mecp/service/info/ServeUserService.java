@@ -20,7 +20,7 @@ public class ServeUserService {
 		return dao.find("select * from serve_user where username = ? order by id asc",username);
 	}
 	
-	public Page<ServeUser> paginate(int pageNum,int page) {
-		return dao.paginate(pageNum, page, "select *", "from serve_user order by id asc");
+	public Page<ServeUser> paginate(int pageNum,int page,String username) {
+		return dao.paginate(pageNum, page, "select *", "from serve_user where username = ? order by id asc",username);
 	}
 }

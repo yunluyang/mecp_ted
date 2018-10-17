@@ -17,12 +17,12 @@ public abstract class BaseServeUser<M extends BaseServeUser<M>> extends Model<M>
 		return getInt("id");
 	}
 
-	public void setUsername(java.lang.Integer username) {
+	public void setUsername(java.lang.String username) {
 		set("username", username);
 	}
 	
-	public java.lang.Integer getUsername() {
-		return getInt("username");
+	public java.lang.String getUsername() {
+		return getStr("username");
 	}
 
 	public void setInfo(java.lang.String info) {
@@ -63,6 +63,14 @@ public abstract class BaseServeUser<M extends BaseServeUser<M>> extends Model<M>
 	
 	public java.util.Date getStartTime() {
 		return get("start_time");
+	}
+
+	public void setName(java.lang.String name) {
+		set("name", name);
+	}
+	
+	public java.lang.String getName() {
+		return getStr("name");
 	}
 
 }
