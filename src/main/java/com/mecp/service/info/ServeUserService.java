@@ -12,6 +12,10 @@ import com.jfinal.plugin.activerecord.tx.Tx;
 public class ServeUserService {
 	private ServeUser dao = new ServeUser().dao();
 	
+	public ServeUser getById(int id){
+		return dao.findById(id);
+	}
+	
 	public List<ServeUser> getAll(){
 		return dao.find("select * from serve_user order by id asc");
 	}
@@ -21,6 +25,10 @@ public class ServeUserService {
 	}
 	
 	public Page<ServeUser> paginate(int pageNum,int page,String username) {
-		return dao.paginate(pageNum, page, "select *", "from serve_user where username = ? order by id asc",username);
+		return dao.paginate(pageNum, page, "select *", "from serve_user where username = ? order by id desc",username);
+	}
+	
+	public Page<ServeUser> paginate(int pageNum,int page) {
+		return dao.paginate(pageNum, page, "select *", "from serve_user order by id desc");
 	}
 }

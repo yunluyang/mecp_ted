@@ -12,15 +12,20 @@ import com.demo.common.model.BasicInfomation;
 import com.demo.common.model.Customer;
 import com.demo.common.model.DetectionDevice;
 import com.demo.common.model.TestStBasis;
+import com.demo.common.model.UploadRecord;
 import com.demo.common.model.User;
+import com.jfinal.aop.Before;
 import com.jfinal.aop.Inject;
 import com.jfinal.core.Controller;
 import com.jfinal.plugin.activerecord.Page;
+import com.mecp.upload.UploadRecordService;
+import com.mecp.user.UserInterceptor;
 import com.mecp.user.UserService;
 
 /**
  * CommonInfoController
  */
+@Before(UserInterceptor.class)
 public class CommonInfoController extends Controller {
 	
 	
@@ -37,6 +42,8 @@ public class CommonInfoController extends Controller {
 	BasicInfomationService basicInfomationSrv;
 	@Inject
 	UserService userSrv;
+	@Inject
+	UploadRecordService uploadRecordSrv;
 	
 	public void index() {
 		User user = userSrv.findByUserName(getSessionAttr("loginUser"));
@@ -66,7 +73,7 @@ public class CommonInfoController extends Controller {
 	
 	public void teamlistHtml(){
 		setAttr("teamlist", teamSrv.getAllTeam());
-		render("../views/commoninfo/teamlist.html");
+		render("/views/commoninfo/teamlist.html");
 	}
 	
 	public void getDetectionDevice(){
@@ -77,8 +84,43 @@ public class CommonInfoController extends Controller {
 		renderJson();
 	}
 	
+	//编辑检测设备
+	public void editDetectionDevice(){
+		DetectionDevice detectionDevice = detectionDeviceSrv.getById(getParaToInt("id"));
+		detectionDevice.setDeviceName(getPara("device_name"));
+		detectionDevice.setDeviceNumber(getPara("device_number"));
+		detectionDevice.setModel(getPara("model"));
+		detectionDevice.setParameter(getPara("parameter"));
+		detectionDevice.setVender(getPara("vender"));
+		detectionDevice.update();
+		setAttr("code",0);
+		renderJson();
+	}
+	
+	public void deletDetecDevice(){
+		DetectionDevice detectionDevice = detectionDeviceSrv.getById(getParaToInt("id"));
+		detectionDevice.delete();
+		setAttr("code",0);
+		renderJson();
+	}
+	
 	public void detectionDeviceHtml(){
-		render("../views/commoninfo/detectiondevice.html");
+		render("/views/commoninfo/detectiondevice.html");
+	}
+	
+	public void addDetecDevice(){
+		UploadRecord uploadRecord = uploadRecordSrv.getById(getParaToInt("calibration_report_id"));
+		DetectionDevice detectionDevice = new DetectionDevice();
+		detectionDevice.setDeviceName(getPara("device_name"));
+		detectionDevice.setDeviceNumber(getPara("device_number"));
+		detectionDevice.setModel(getPara("model"));
+		detectionDevice.setParameter(getPara("parameter"));
+		detectionDevice.setVender(getPara("vender"));
+		detectionDevice.setCalibrationReportId(getParaToInt("calibration_report_id"));
+		detectionDevice.setFileName(uploadRecord.getFileName());
+		detectionDevice.save();
+		setAttr("code",0);
+		renderJson();
 	}
 	
 	public void getTestStBasisDevice(){
@@ -94,7 +136,7 @@ public class CommonInfoController extends Controller {
 	 * 获取检测与标准页面
 	 */
 	public void testStBasisHtml(){
-		render("../views/commoninfo/standard.html");
+		render("/views/commoninfo/standard.html");
 	}
 	
 	/**
@@ -119,7 +161,7 @@ public class CommonInfoController extends Controller {
 		setAttr("model",jsonObject);
 		setAttr("id",getParaToInt("id"));
 		setAttr("list", page);
-		render("../views/commoninfo/pvmodule_edit.html");
+		render("/views/commoninfo/pvmodule_edit.html");
 	}
 	
 	/**
@@ -132,7 +174,7 @@ public class CommonInfoController extends Controller {
 		setAttr("model",jsonObject);
 		setAttr("id",getParaToInt("id"));
 		setAttr("list", page);
-		render("../views/commoninfo/headerbox_edit.html");
+		render("/views/commoninfo/headerbox_edit.html");
 	}
 	
 	/**
@@ -145,7 +187,7 @@ public class CommonInfoController extends Controller {
 		setAttr("model",jsonObject);
 		setAttr("id",getParaToInt("id"));
 		setAttr("list", page);
-		render("../views/commoninfo/inverter_edit.html");
+		render("/views/commoninfo/inverter_edit.html");
 	}
 	
 	/**
@@ -158,7 +200,7 @@ public class CommonInfoController extends Controller {
 		setAttr("model",jsonObject);
 		setAttr("id",getParaToInt("id"));
 		setAttr("list", page);
-		render("../views/commoninfo/svg_edit.html");
+		render("/views/commoninfo/svg_edit.html");
 	}
 	
 	

@@ -21,20 +21,19 @@
 
 	<div class="layadmin-user-login layadmin-user-display-show"
 		id="LAY-user-login" style="display: none;">
-		<div class="layadmin-user-login-main">
+		<div class="layadmin-user-login-main" >
 			<div class="layadmin-user-login-box layadmin-user-login-header">
 				<h2>旻投电力检测评估平台</h2>
 			</div>
-			<div
-				class="layadmin-user-login-box layadmin-user-login-body layui-form">
+			<div class="layadmin-user-login-box layadmin-user-login-body layui-form" >
 				<form method="post" action="../../register" class="layui-form"
 					id="loginform">
-					<div class="layui-form-item">
+					<div class="layui-form-item" >
 						<label
 							class="layadmin-user-login-icon layui-icon layui-icon-cellphone"
 							for="LAY-user-login-cellphone"></label> <input type="text"
 							name="username" id="LAY-user-login-cellphone"
-							value="jiaxiaoshuai" lay-verify="username" placeholder="用户名:只支持12位以内英文字母、数字"
+							lay-verify="username" placeholder="用户名:只支持12位以内英文字母、数字"  required
 							class="layui-input">
 					</div>
 
@@ -42,16 +41,66 @@
 						<label
 							class="layadmin-user-login-icon layui-icon layui-icon-password"
 							for="LAY-user-login-password"></label> <input type="password"
-							name="password" id="LAY-user-login-password" lay-verify="pass"
-							placeholder="密码" class="layui-input" value="111111">
+							name="password" id="LAY-user-login-password" lay-verify="password" required
+							placeholder="密码" class="layui-input" >
 					</div>
 					<div class="layui-form-item">
 						<label
-							class="layadmin-user-login-icon layui-icon layui-icon-password"
+							class="layadmin-user-login-icon layui-icon layui-icon-group"
 							for="LAY-user-login-repass"></label> <input type="password"
-							name="repass" id="LAY-user-login-repass" lay-verify="required"
-							placeholder="确认密码" value="111111" class="layui-input">
+							name="repass" id="LAY-user-login-repass" lay-verify="repass" required
+							placeholder="确认密码" class="layui-input">
 					</div>
+					
+					<div class="layui-form-item">
+						<label
+							class="layadmin-user-login-icon layui-icon layui-icon-password"
+							for="LAY-user-login-repass"></label> <input type="text"
+							name="company"  required
+							placeholder="公司名称"  class="layui-input">
+					</div>
+					
+					<div class="layui-form-item">
+						<label
+							class="layadmin-user-login-icon layui-icon layui-icon-list"
+							for="LAY-user-login-repass"></label> <input type="text"
+							name="power_plant_name"  required
+							placeholder="光伏电站名称"  class="layui-input">
+					</div>
+					
+					
+					<div class="layui-form-item">
+						<label
+							class="layadmin-user-login-icon layui-icon layui-icon-password"
+							for="LAY-user-login-repass"></label> <input type="text"
+							name="electricity"  required
+							placeholder="光伏电站容量"  class="layui-input">
+					</div>
+					
+					<div class="layui-form-item">
+						<label
+							class="layadmin-user-login-icon layui-icon layui-icon-location"
+							for="LAY-user-login-repass"></label> <input type="text"
+							name="province"  required
+							placeholder="电站地址"  class="layui-input">
+					</div>
+					
+					<div class="layui-form-item">
+						<label
+							class="layadmin-user-login-icon layui-icon layui-icon-location"
+							for="LAY-user-login-repass"></label> <input type="text"
+							name="contact_name" required
+							placeholder="联系人"  class="layui-input">
+					</div>
+					
+					<div class="layui-form-item">
+						<label
+							class="layadmin-user-login-icon layui-icon layui-icon-location"
+							for="LAY-user-login-repass"></label> <input type="text"
+							name="phone" required
+							placeholder="联系电话"  class="layui-input">
+					</div>
+					
 					<div class="layui-form-item">
 						<input type="checkbox" name="agreement" lay-skin="primary"
 							title="同意用户协议" checked>
@@ -78,13 +127,13 @@
 		<div class="layui-trans layadmin-user-login-footer">
 
 			<p>
-				© 2018 <a href="http://www.layui.com/" target="_blank">layui.com</a>
+				© 2018 <a href="http://www.layui.com/" target="_blank">mecp.com</a>
 			</p>
 			<p>
-				<span><a href="http://www.layui.com/admin/#get"
-					target="_blank">获取授权</a></span> <span><a
-					href="http://www.layui.com/admin/pro/" target="_blank">在线演示</a></span> <span><a
-					href="http://www.layui.com/admin/" target="_blank">前往官网</a></span>
+				<span><a href="#"
+					target="_blank">获取电话</a></span> <span><a
+					href="#" target="_blank">在线联系</a></span> <span><a
+					href="#" target="_blank">前往官网</a></span>
 			</p>
 		</div>
 
@@ -172,7 +221,8 @@
 		var options = {   
 		        target:        '#output2',   // target element(s) to be updated with server response   
 		       // beforeSubmit:  showRequest,  // pre-submit callback   
-		        success:       function(responseText, statusText){
+		        success:       
+			        function(responseText, statusText){
 					console.dir("success:"+statusText);
 					console.dir("success:"+responseText.code);
 					if(responseText.code==201){
@@ -181,7 +231,6 @@
 						}else{
 							alert(responseText.msg);
 							go(); 
-							
 							}
 			        }    ,
 		        dataType:  'json',        // 'xml', 'script', or 'json' (expected server response type)  

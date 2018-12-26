@@ -27,18 +27,6 @@
               				<button class="layui-btn" data-type="getCheckData" id="addbtn">创建新的服务</button>
             			</div>
 						<table class="layui-table" id="mytable" lay-filter="table-operate"> </table>
-						<script type="text/html" id="buttonTpl">
-          				{{#  if(d.state == '已处理'){ }}
-            			<button class="layui-btn layui-btn-normal layui-btn-xs">已处理</button>
-          					{{#  } else if(d.state == '未分配'){ }}
-            				<button class="layui-btn layui-btn-primary layui-btn-xs">未分配</button>
-          				{{#  } else{ }}
-            				<button class="layui-btn layui-btn-warm layui-btn-xs">处理中</button>
-          					{{#  } }}
-        				</script>
-						<script type="text/html" id="table-operate-bar">
-              				<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
-            			</script>
 					</div>
 				</div>
 			</div>
@@ -46,6 +34,33 @@
 	</div>
 
 	<script src="../../../layuiadmin/layui/layui.js"></script>
+	<script type="text/javascript" id="states-webuser">
+		{{ formatstatus(d.states) }}
+	</script>
+	<script type="text/html" id="table-operate-bar">
+		{{ formatoperate(d.states) }}
+    </script>
+		<script type="text/javascript">
+		function formatstatus(obj) {
+			var html = '';
+			if (obj == '待检') {
+				html = '<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="status">'+obj+'</a>'
+			}else if (obj == '在检') {
+				html = '<a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="status">'+obj+'</a>'
+			}else if (obj == '已检') {
+				html = '<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="status">'+obj+'</a>'
+			}else{
+				html = '<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="status">'+obj+'</a>'
+			}
+			return html;
+		}
+
+		function formatoperate(obj) {
+			var html = '';
+				html = '<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="peizhi"  target="_blank" >配置服务</a><a class="layui-btn layui-btn-xs" lay-event="detail"  target="_blank" >查&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp看</a>'
+			return html;
+		}
+	</script>
 	<script>
 		layui.config({
 			base : '../../../layuiadmin/' //静态资源所在路径
@@ -53,23 +68,23 @@
 			index : 'lib/index' //主入口模块
 		}).use([ 'index', 'table','jquery', 'element' ], function() {
 			var table = layui.table ,form = layui.form
-			  ,element = layui.element;;
+			  ,element = layui.element;
 			var $ = layui.$;
 			  //渲染table
 			  table.render({
 			    elem: '#mytable',
 			   	even: true, //开启隔行背景
 				height: 'full-100',
-			    url: '../../serveinfo/serviceContent' //数据接口
+			    url: '/serveinfo/serviceContent' //数据接口
 			    ,page: true //开启分页
 			    ,cols: [[ //表头
 			      {field: 'id', title: '序号', sort: true, fixed: 'left'}
 			      ,{field: 'name', title: '名称'}
 			      ,{field: 'creat_time', title: '创建时间', sort: true}
-			      ,{field: 'end_time', title: '结束时间'} 
-			      ,{field: 'states', title: '状态', templet: '#buttonTpl', minWidth: 80, align: 'center'}
+			      ,{field: 'power_plant_name', title: '电厂'} 
+			      ,{field: 'states', title: '状态', sort: true,templet: '#states-webuser', minWidth: 80, align: 'center'}
 			     // ,{field: 'states', title: '状态', width: 177}
-			      ,{ title: '操作',sort: true,toolbar: '#table-operate-bar'}
+			      ,{ title: '操作',sort: true,toolbar: '#table-operate-bar',align : 'left'}
 			    ]],page:true
 			  });
 
@@ -77,23 +92,36 @@
 			    table.on('tool(table-operate)', function(obj){
 			      var data = obj.data;
 			      if(obj.event === 'detail'){
-			        layer.msg('ID：'+ data.id + ' 的查看操作');
+						url="/serveinfo/serviceDetail?id="+data.id;
+					layer.full(layer.open
+								(
+										{   title:'服务查看',
+											type:2,
+											content:url
+									}
+								)); 
 			      } else if(obj.event === 'del'){
 			        layer.confirm('真的删除行么', function(index){
 			          obj.del();
 			          layer.close(index);
 			        });
-			      } else if(obj.event === 'edit'){
-			        layer.alert('编辑行：<br>'+ JSON.stringify(data))
+			      } else if(obj.event === 'peizhi'){
+			    		url="/serveinfo/configService?id="+data.id;
+						layer.full(layer.open
+									(
+											{   title:'服务配置',
+												type:2,
+												content:url
+										}
+									)); 
 			      }
 			    });
 
 			  $('#addbtn').click(function(){
-
 				  layer.open({
 			          type: 2
 			          ,title: '添加服务'
-			          ,content: '../../views/serveinfo/addform.html'
+			          ,content: '/views/serveinfo/addform.html'
 			          ,area: ['450px', '250px']
 			          ,btn: ['确定', '取消']
 			          ,yes: function(index, layero){
@@ -108,10 +136,15 @@
 			              //提交 Ajax 成功后，静态更新表格中的数据
 			                $.get("addService",field
 					                ,function(data,status){
-			                				console.dir(data);
+			                			  console.dir(data);
+			                			  if(data.code==0){
+			                				  layer.msg('添加成功');
+				      			              table.reload('mytable'); //数据刷新
+				    			              layer.close(index); //关闭弹层
+				                			  }else{
+				                				  layer.alert('添加失败', {icon: 1});
+					                			  }
   									});
-			              table.reload('LAY-user-front-submit'); //数据刷新
-			              layer.close(index); //关闭弹层
 			            });  
 			            
 			            submit.trigger('click');

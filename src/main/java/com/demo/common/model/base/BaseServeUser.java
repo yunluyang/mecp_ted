@@ -73,4 +73,76 @@ public abstract class BaseServeUser<M extends BaseServeUser<M>> extends Model<M>
 		return getStr("name");
 	}
 
+	public void setPowerPlantName(java.lang.String powerPlantName) {
+		set("power_plant_name", powerPlantName);
+	}
+	
+	public java.lang.String getPowerPlantName() {
+		return getStr("power_plant_name");
+	}
+
+	public void setProgress(java.lang.String progress) {
+		set("progress", progress);
+	}
+	
+	public java.lang.String getProgress() {
+		return getStr("progress");
+	}
+
+	public void setConciseReport(java.lang.Integer conciseReport) {
+		set("concise_report", conciseReport);
+	}
+	
+	public java.lang.Integer getConciseReport() {
+		return getInt("concise_report");
+	}
+
+	public void setIsUpload(java.lang.Long isUpload) {
+		set("isUpload", isUpload);
+	}
+	
+	public java.lang.Long getIsUpload() {
+		return getLong("isUpload");
+	}
+
+	public void setReportId(java.lang.Integer reportId) {
+		set("report_id", reportId);
+	}
+	
+	public java.lang.Integer getReportId() {
+		return getInt("report_id");
+	}
+
+	public void setContractId(java.lang.Integer contractId) {
+		set("contract_id", contractId);
+	}
+	
+	public java.lang.Integer getContractId() {
+		return getInt("contract_id");
+	}
+
+	public void setSettlementMaterialsId(java.lang.Integer settlementMaterialsId) {
+		set("settlement_materials_id", settlementMaterialsId);
+	}
+	
+	public java.lang.Integer getSettlementMaterialsId() {
+		return getInt("settlement_materials_id");
+	}
+
+	public void setUpdateTime(java.util.Date updateTime) {
+		set("update_time", updateTime);
+	}
+	
+	public java.util.Date getUpdateTime() {
+		return get("update_time");
+	}
+
+	public void setEditer(java.lang.String editer) {
+		set("editer", editer);
+	}
+	
+	public java.lang.String getEditer() {
+		return getStr("editer");
+	}
+
 }

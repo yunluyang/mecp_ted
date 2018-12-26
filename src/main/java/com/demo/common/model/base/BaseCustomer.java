@@ -65,4 +65,20 @@ public abstract class BaseCustomer<M extends BaseCustomer<M>> extends Model<M> i
 		return getDouble("long");
 	}
 
+	public void setProvince(java.lang.String province) {
+		set("province", province);
+	}
+	
+	public java.lang.String getProvince() {
+		return getStr("province");
+	}
+
+	public void setCompany(java.lang.String company) {
+		set("company", company);
+	}
+	
+	public java.lang.String getCompany() {
+		return getStr("company");
+	}
+
 }

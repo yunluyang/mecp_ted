@@ -36,6 +36,20 @@
 	</div>
 
 	<script src="../../layuiadmin/layui/layui.js"></script>
+	 <script type="text/javascript" id="download">
+		{{ formatdownload(d) }}
+	</script>
+	  <script type="text/javascript">
+		function formatdownload(obj) {
+			var html = '';
+			if (obj.calibration_report_id == ''||obj.calibration_report_id == null) {
+				
+			}else {
+				html = "<a class='layui-btn layui-btn-radius layui-btn-normal  layui-btn-xs' href='/pdfjs/web/viewer.html?file=/upload/detecdevice/"+obj.file_name+"' title='点击查看报告' target='_blank'>查看报告</a>"
+				}
+			return html;
+		}
+	</script>
 	<script>
 		layui
 				.config({
@@ -65,12 +79,7 @@
 												},
 												{
 													field : 'device_name',
-													title : '设备名称',
-													templet : function(res) {
-														return '<div  style="align-items: center;display: table"><img src="../../upload/detectiondevice/'+res.avatar+'" style=" dispaly:block;margin:0 auto;" ><br>'
-																+ res.device_name
-																+ '</div>'
-													}
+													title : '设备名称'
 												},
 												{
 													field : 'vender',
@@ -91,9 +100,7 @@
 												{
 													field : 'calibration_report',
 													title : '计量报告',
-													templet : function(res) {
-														return '<a class="layui-btn layui-btn-xs">查看</a>'
-													}
+													templet :'#download'
 												}] ],
 										page : true
 									});

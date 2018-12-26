@@ -57,4 +57,60 @@ public abstract class BaseUser<M extends BaseUser<M>> extends Model<M> implement
 		return getStr("province");
 	}
 
+	public void setRid(java.lang.Integer rid) {
+		set("rid", rid);
+	}
+	
+	public java.lang.Integer getRid() {
+		return getInt("rid");
+	}
+
+	public void setStates(java.lang.Integer states) {
+		set("states", states);
+	}
+	
+	public java.lang.Integer getStates() {
+		return getInt("states");
+	}
+
+	public void setCreatTime(java.util.Date creatTime) {
+		set("creat_time", creatTime);
+	}
+	
+	public java.util.Date getCreatTime() {
+		return get("creat_time");
+	}
+
+	public void setElectricity(java.lang.String electricity) {
+		set("electricity", electricity);
+	}
+	
+	public java.lang.String getElectricity() {
+		return getStr("electricity");
+	}
+
+	public void setContactName(java.lang.String contactName) {
+		set("contact_name", contactName);
+	}
+	
+	public java.lang.String getContactName() {
+		return getStr("contact_name");
+	}
+
+	public void setPhone(java.lang.String phone) {
+		set("phone", phone);
+	}
+	
+	public java.lang.String getPhone() {
+		return getStr("phone");
+	}
+
+	public void setUnread(java.lang.Boolean unread) {
+		set("unread", unread);
+	}
+	
+	public java.lang.Boolean getUnread() {
+		return get("unread");
+	}
+
 }

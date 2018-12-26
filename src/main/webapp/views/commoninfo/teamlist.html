@@ -13,21 +13,24 @@
 	media="all">
 <link rel="stylesheet" href="../../layuiadmin/style/admin.css"
 	media="all">
-
-  <link rel="stylesheet" href="../../css/views/common.css" media="all">
-	
+<link rel="stylesheet" href="../../css/views/common.css" media="all">
+	  <style type="text/css">
+        .cell {
+            height: 170px;
+        }
+    </style>
 </head>
 <body>
 
 
 	<div class="layui-fluid layadmin-maillist-fluid">
-		<div class="layui-row layui-col-space10">
+		<div class="layui-row layui-col-space10  layer-photos-demo" id="layer-photos-demo" >
 			#for(team : teamlist)
 			<div class="layui-col-md6 layui-col-sm12">
 				<div class="layadmin-contact-box">
 					<div class="layui-col-md4 layui-col-sm6">
-							<div class="layadmin-text-center">
-								<img src="../../upload/team/#(team.avatar)">
+							<div  class="layadmin-text-center">
+								<img  layer-src="/upload/team/#(team.avatar)" alt="#(team.name)" class="cell" src="/upload/team/#(team.avatar)">
 							</div>
 					</div>
 
@@ -41,7 +44,7 @@
 							</p>
 						</a>
 						<div class="layadmin-address">
-							<a href="javascript:;"> <strong>#(team.birth)</strong>
+							<a href="javascript:;"> <strong>#(team.email)</strong>
 								#(team.phone) <br> #(team.info)
 							</a>
 						</div>
@@ -55,8 +58,19 @@
 
 
 	<script src="../../layuiadmin/layui/layui.js"></script>
-	<script src="../../js/jquery-1.4.4.min.js"></script>
-	<script type="text/javascript" src="../../js/views/teamlist.js"></script>
+	<script>
+	layui.config({
+	    base: '/layuiadmin/' //静态资源所在路径
+	  }).extend({
+	    index: 'lib/index' //主入口模块
+	  }).use(['index'], function(){
+	    var $ = layui.jquery;
+	    layer.photos({
+	    	  photos: '#layer-photos-demo'
+	    	  ,anim: 5 //0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+	    	}); 
+	  });
+		</script>
 
 </body>
 </html>

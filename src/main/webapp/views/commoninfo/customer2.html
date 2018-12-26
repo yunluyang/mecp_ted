@@ -16,7 +16,8 @@
 <script type="text/javascript" src="../../js/jquery.min.js"></script>
 <script type="text/javascript"
 	src="http://api.map.baidu.com/api?v=2.0&ak=2COzFaICuIyVj7V3VetKfmdRVnX8BhVr"></script>
-
+<script type="text/javascript" src="http://api.map.baidu.com/library/TextIconOverlay/1.2/src/TextIconOverlay_min.js"></script>
+	<script type="text/javascript" src="http://api.map.baidu.com/library/MarkerClusterer/1.2/src/MarkerClusterer_min.js"></script>
 <style type="text/css">
 body, html {
 	width: 100%;
@@ -38,23 +39,24 @@ body, html {
 <body>
 			<section class="section-bdmap">
 				<div class="map-search">
-					<!--/one-->
+				<!--/one-->
 					<div class="one layui-form">
-						<label class="option">客户地区</label> <select id="select_property">
-						<option value="1">江苏</option>
-					<option value="2">海南</option>
-					<option value="3">青岛</option>
+						<label class="option">客户姓名</label> <select id="select_property" lay-filter="company">
+							<option></option>
+							#for(x:company)
+							<option value=#(x.name) >#(x.name)</option>
+							#end
 						</select>
 					</div>
 					<!--/one-->
 					<div class="one layui-form">
-						<label class="option">客户姓名</label> <select id="select_property">
-							<option value="1">青岛天能重工股份有限公司</option>
-					<option value="2">青海立腾新能源投资有限公司</option>
-					<option value="3">通威新能源有限公司</option>
-					<option value="4">顺风光电投资（中国）有限公司</option>
-					<option value="5">中民能控有限公司</option>
+						<label class="option">客户地区</label> 
+						<select id="select_province" lay-filter="province">
 						</select>
+					</div>
+					
+					<div class="one layui-form" style="text-align: center;">
+						<button class="layui-btn" type="button" id="conform">确定</button>
 					</div>
 					<!--/one-->
 				</div>
@@ -76,7 +78,7 @@ body, html {
 	}
 	var myCity = new BMap.LocalCity();
 	myCity.get(myFun);
-	map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);
+	map.centerAndZoom(new BMap.Point(116.404, 39.915),5);
 	var top_left_control = new BMap.ScaleControl({
 		anchor : BMAP_ANCHOR_TOP_LEFT
 	});// 左上角，添加比例尺
@@ -120,64 +122,54 @@ body, html {
 		}).use(
 				[ 'index', 'form','table' ],
 				function() {
-					var admin = layui.admin, table = layui.table;
-					table.render({
-						elem : '#test-table-onrow',
-						 even: true, //开启隔行背景
-						 height: '200px',
-						url : '../../common/getCustomers',
-						cols : [ [ {
-							field : 'id',
-							width : 30,
-							title : '序号',
-							sort : true
-						}, {
-							field : 'customer_name',
-							title : '电站名称',
-							sort : true
-						}, {
-							field : 'customer_address',
-							title : '地址',
-							sort : true
-						}, {
-							field : 'customer_contact_name',
-							title : '联系人',
-							sort : true
-						}, {
-							field : 'customer_contact',
-							title : '联系方式',
-							sort : true
-						} ] ]
-					,
-				      done : function(res, curr, count){
-				          // do something...
-				      
-				      }
-					,
-						page : true
-					});
-					//监听行单击事件（单击事件为：rowDouble）
-					table.on('row(test-table-onrow)', function(obj) {
-						var data = obj.data;
-						map.centerAndZoom(new BMap.Point(data.long, data.lat), 11);
-						//标注选中样式
-						obj.tr.addClass('layui-table-click').siblings()
-								.removeClass('layui-table-click');
-					});
+					var admin = layui.admin, table = layui.table ,form=layui.form;
+
+					form.on('select(company)', function(data){
+        	 			$("#select_province option").empty();
+						  	$.get("/customer/getCompanyProvince?company="+data.value,function(data,status){
+							  	if(status=="success"){
+			        	 			if(data.province.length>0){
+										data.province.forEach(function(item){
+								        	console.dir(item.province);
+								        	 $("#select_province").append("<option value='"+item.province+"'>"+item.province+"</option>");
+								        	 form.render();
+										});
+									  	}
+								  	};
+							  	
+							});
+					});	
 				});
 
-		$.get("../../common/getListCustomers",function(data,status){
+		
+		$.get("/common/getListCustomers",function(data,status){
 			data.data.forEach(function(item){
 	        	  var point = new BMap.Point(item.long, item.lat);
 	        	  var marker = new BMap.Marker(new BMap.Point(item.long,item.lat));  // 创建标注
-	      			var content = item.customer_name+",地址:"+item.customer_address+",联系人:"+item.customer_contact_name+",联系方式:"+item.customer_contact;
+	      			var content = "电站名称:"+item.customer_name+"<br />电站地址:"+item.customer_address;
 	      				map.addOverlay(marker);               // 将标注添加到地图中
 	      			addClickHandler(content,marker);
 	      			markers.push(marker);
 					});
-	        //最简单的用法，生成一个marker数组，然后调用markerClusterer类即可。
-	      	var markerClusterer = new BMapLib.MarkerClusterer(map, {markers:markers});
-			
+			});
+		
+		$('#conform').click(function(){
+							$.get("/customer/getCustomer?company="+$("#select_property").val()+"&province="+$("#select_province").val(),function(data,status){
+							  	if(status=="success"){
+									layer.msg("查询到"+data.data.length+"条数据");
+									map.clearOverlays(); 
+									markers=[];
+									data.data.forEach(function(item){
+							        	  var point = new BMap.Point(item.long, item.lat);
+							        	  var marker = new BMap.Marker(new BMap.Point(item.long,item.lat));  // 创建标注
+							      			var content = "电站名称:"+item.customer_name+"<br />电站地址:"+item.customer_address;
+							      				map.addOverlay(marker);               // 将标注添加到地图中
+							      			addClickHandler(content,marker);
+							      			markers.push(marker);
+											});
+								  	};
+							  	
+							});
 			});
 	</script>
 </html>

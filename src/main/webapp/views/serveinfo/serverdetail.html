@@ -1,0 +1,158 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>服务项配置</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css"
+	media="all">
+<link rel="stylesheet" href="../../layuiadmin/style/admin.css"
+	media="all">
+
+<link rel="stylesheet" href="../css/element.min.css" />
+<script type="text/javascript" src="../js/vue.min.js"></script>
+<script type="text/javascript" src="../js/element.min.js"></script>
+</head>
+<body>
+
+	<div class="layui-fluid">
+		<div class="layui-row layui-col-space15">
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-tab layui-tab-brief"
+						lay-filter="component-tabs-brief">
+						<div class="layui-tab-content">
+							<div class="layui-tab-item layui-show">
+								<div id="myVue">
+									<el-steps :active="stepVal4" align-center> <el-step
+										title="合同状态" description=#(contrack)></el-step>
+									<el-step title="检测状态" description="正在检测(#(count)/#(total))"></el-step>
+									<el-step title="报告状态" description="(#(report_states))"></el-step> <el-step
+										title="结算状态" description="(#(js_states))"></el-step> </el-steps>
+								</div>
+									<br />
+								<div class="layui-btn-group layui-col-space10">
+									#if(contrackPath??)
+									<a href="/download/downloadFile?path=#(contrackPath)" class="layui-btn">查看合同</a>
+									#end
+									#if(c_reportPath??)
+									<a href="/tprocess/lookTable?serDetailId=#(c_reportPath)" target="_blank" class="layui-btn">简洁报告</a>
+									#end
+									#if(reportPath??)
+									<a href="/download/downloadFile?path=#(reportPath)" class="layui-btn">查看报告</a>
+									#end
+									#if(setMaterPath??)
+									<a href="/download/downloadFile?path=#(setMaterPath)" class="layui-btn">结算材料</a>
+									#end
+								</div>
+								#if(serUser.info??)
+								<table class="layui-table" id="service_total_table"
+									lay-filter="service_total_table">
+								</table>
+								#else <strong style="color: #c00;">请先配置所需服务</strong> #end
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="../../layuiadmin/layui/layui.js?t=1"></script>
+	<script type="text/html" id="service_total_table-operate">
+				{{formatoperate(d)}}
+        </script>
+	<script type="text/javascript">
+		function formatoperate(obj) {
+			var html = '';
+			if (obj.serve_detail_id != 0) {
+				html = '<a class="layui-btn layui-btn-xs" lay-event="detail" disabled>检测数据查看</a>'
+			}else{
+				html = ''
+			}
+			return html;
+		}
+	</script>
+	<script>
+			layui
+					.config({
+						base : '../../layuiadmin/' //静态资源所在路径
+					})
+					.extend({
+						index : 'lib/index' //主入口模块
+					})
+					.use(
+							[ 'index', 'console', 'table','element' ],
+							function() {
+								var table = layui.table, form = layui.form, element = layui.element;
+								;
+								var $ = layui.$;
+								//渲染table
+								table
+										.render({
+											elem : '#service_total_table',
+											even : true, //开启隔行背景
+											url : '/serveinfo/quseryServiceDetail?id='+#(serUser.id) //数据接口
+											,
+											cols : [ [ 
+											{
+												field : 'id',
+												title : '序号',
+												width:80,
+												sort : true
+											}, {
+												field : 'name',
+												title : '检测项目'
+											}, {
+												field:'p',
+												title : '检测责任人'
+											}, {
+												field:'states',
+												title : '检测状态',
+												sort : true
+											} 
+									        ,{align:'center',title : '操作', fixed: 'right',templet:'#service_total_table-operate'
+									        }] ]
+										});
+								 //监听工具条
+							    table.on('tool(service_total_table)', function(obj){
+							      var data = obj.data;
+							      var serve_detail_id = data.serve_detail_id;
+							      console.dir(serve_detail_id);
+							      #set(x=serve_detail_id)
+							      if(obj.event === 'detail'){
+							        	if(serve_detail_id === 0){
+							        		layer.msg('暂无数据');
+							        	}else{
+							        		window.open("/tprocess/lookTable?serDetailId="+data.serve_detail_id);
+								        	}
+							      } else if(obj.event === 'del'){
+							        layer.confirm('真的删除行么', function(index){
+							          obj.del();
+							          layer.close(index);
+							        });
+							      } else if(obj.event === 'edit'){
+							        layer.alert('编辑行：<br>'+ JSON.stringify(data))
+							      }
+							    });
+								
+							});
+
+		</script>
+
+	<script type="text/javascript">
+		new Vue({
+		    el: '#myVue',
+			data: {
+			    stepVal4: #(step)
+ 			}
+	    })
+	</script>
+</body>
+</html>
+

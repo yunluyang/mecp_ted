@@ -1,0 +1,314 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>服务项配置</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" href="../../layuiadmin/layui/css/layui.css"
+	media="all">
+<link rel="stylesheet" href="../../layuiadmin/style/admin.css"
+	media="all">
+<link rel="stylesheet" href="../css/element.min.css" />
+<link rel="stylesheet" type="text/css" href="../css/jquery.step.css">
+<script src="../js/jquery.min.js"></script>
+<script src="../js/jquery.step.js"></script>
+</head>
+<body>
+
+	<div class="layui-fluid">
+		<div class="layui-row layui-col-space15">
+			<div class="layui-col-md12">
+				<div class="layui-card step-body" id="myStep">
+					<div class="step-header" style="width: 80%">
+						<ul>
+							<li><p>综合服务</p></li>
+							<li><p>系统效率检测</p></li>
+							<li><p>尽职调查</p></li>
+							<li><p>竣工验收</p></li>
+							<li><p>到货验收</p></li>
+						</ul>
+					</div>
+					<div class="step-content">
+						<div class="step-list"><table class="layui-table" id="comprehensive_service_table"
+									lay-filter="table-operate">
+								</table></div>
+						<div class="step-list"><table class="layui-table" id="system_efficiency_test_table"
+									lay-filter="table-operate">
+								</table></div>
+						<div class="step-list"><table class="layui-table" id="due_diligence_table"
+									lay-filter="table-operate">
+								</table></div>
+						<div class="step-list"><table class="layui-table" id="completion_acceptance_table"
+									lay-filter="table-operate">
+								</table></div>
+						<div class="step-list"><table class="layui-table"
+									id="inspection_incoming_merchandise_table"
+									lay-filter="table-operate">
+								</table></div>
+					</div>
+				</div>
+				<div class="layui-btn-container" style="text-align: center">
+  						<button class="layui-btn" id="preBtn">上一步</button>
+  						<button class="layui-btn" id="nextBtn">下一步</button>
+  						#if(serUser.info??) #else
+  						<button class="layui-btn layui-btn-danger" id="getCheckData">保存</button>
+  						#end
+				</div>
+			</div>
+		</div>
+
+		<script src="../../layuiadmin/layui/layui.js?t=1"></script>
+		<script>
+			layui
+					.config({
+						base : '../../layuiadmin/' //静态资源所在路径
+					})
+					.extend({
+						index : 'lib/index' //主入口模块
+					})
+					.use(
+							[ 'index', 'console', 'table','element' ],
+							function() {
+								var table = layui.table, form = layui.form, element = layui.element;
+								;
+								var $ = layui.$;
+								//渲染table
+								table
+										.render({
+											elem : '#service_total_table',
+											even : true, //开启隔行背景
+											url : '../../serveinfo/quseryServiceDetail?id='+#(serUser.id) //数据接口
+											,
+											cols : [ [ 
+											{
+												field : 'id',
+												title : '序号',
+												width:80,
+												sort : true
+											}, {
+												field : 'name',
+												title : '检测项目'
+											}, {
+												field:'p',
+												title : '检测责任人'
+											}, {
+												field : 'states',
+												title : '检测状态',
+												sort : true
+											} 
+									        ,{align:'center',title : '操作', fixed: 'right',templet:'#service_total_table-operate'
+									        }] ]
+										});
+								 //监听工具条
+							    table.on('tool(service_total_table)', function(obj){
+							      var data = obj.data;
+							      var serve_detail_id = data.serve_detail_id;
+							      console.dir(serve_detail_id);
+							      #set(x=serve_detail_id)
+							      if(obj.event === 'detail'){
+							        	if(serve_detail_id === 0){
+							        		layer.msg('暂无数据');
+							        	}else{
+							        		window.open("../tprocess/lookTable?serDetailId="+data.serve_detail_id);
+								        	}
+							      } else if(obj.event === 'del'){
+							        layer.confirm('真的删除行么', function(index){
+							          obj.del();
+							          layer.close(index);
+							        });
+							      } else if(obj.event === 'edit'){
+							        layer.alert('编辑行：<br>'+ JSON.stringify(data))
+							      }
+							    });
+								
+								table
+										.render({
+											elem : '#comprehensive_service_table',
+											even : true, //开启隔行背景
+											url : '../../serveinfo/serviceInfoByType?type=综合服务' //数据接口
+											,
+											cols : [ [ {
+												type : 'checkbox'
+											}, {
+												field : 'id',
+												title : '序号',
+												sort : true
+											}, {
+												field : 'inspection_items',
+												title : '检测项目'
+											}, {
+												field : 'acceptance_standard',
+												title : '检测标准',
+												sort : true
+											} ] ]
+										});
+
+								table
+										.render({
+											elem : '#system_efficiency_test_table',
+											even : true, //开启隔行背景
+											url : '../../serveinfo/serviceInfoByType?type=系统效率检测' //数据接口
+											,
+											cols : [ [ {
+												type : 'checkbox'
+											}, {
+												field : 'id',
+												title : '序号',
+												sort : true
+											}, {
+												field : 'inspection_items',
+												title : '检测项目'
+											}, {
+												field : 'acceptance_standard',
+												title : '检测标准',
+												sort : true
+											} ] ]
+										});
+
+								table
+										.render({
+											elem : '#due_diligence_table',
+											even : true, //开启隔行背景
+											url : '../../serveinfo/serviceInfoByType?type=尽职调查' //数据接口
+											,
+											cols : [ [ {
+												type : 'checkbox'
+											}, {
+												field : 'id',
+												title : '序号',
+												sort : true
+											}, {
+												field : 'inspection_items',
+												title : '检测项目'
+											}, {
+												field : 'acceptance_standard',
+												title : '检测标准',
+												sort : true
+											} ] ]
+										});
+
+								table
+								.render({
+									elem : '#completion_acceptance_table',
+									even : true, //开启隔行背景
+									url : '../../serveinfo/serviceInfoByType?type=竣工验收' //数据接口
+									,
+									cols : [ [ {
+										type : 'checkbox'
+									}, {
+										field : 'id',
+										title : '序号',
+										sort : true
+									}, {
+										field : 'inspection_items',
+										title : '检测项目'
+									}, {
+										field : 'acceptance_standard',
+										title : '检测标准',
+										sort : true
+									} ] ]
+								});
+
+								table
+								.render({
+									elem : '#inspection_incoming_merchandise_table',
+									even : true, //开启隔行背景
+									url : '../../serveinfo/serviceInfoByType?type=到货验收' //数据接口
+									,
+									cols : [ [ {
+										type : 'checkbox'
+									}, {
+										field : 'id',
+										title : '序号',
+										sort : true
+									}, {
+										field : 'inspection_items',
+										title : '检测项目'
+									}, {
+										field : 'acceptance_standard',
+										title : '检测标准',
+										sort : true
+									} ] ]
+								});
+
+
+
+								    var step= $("#myStep").step();
+								    
+								    $("#preBtn").click(function(event) {
+									    layer.msg("请勾选需要配置的项目");
+								      	var yes=step.preStep();//上一步
+								    });
+								    $("#nextBtn").click(function(event) {
+								    	layer.msg("请勾选需要配置的项目");
+								      	var yes=step.nextStep();
+								    });
+								    $("#goBtn").click(function(event) {
+											var yes=step.goStep(5);//到指定步
+										});
+
+								 $('#getCheckData').click(function(){ //获取选中数据
+									        var comprehensive_service_Status = table.checkStatus('comprehensive_service_table');
+									        comprehensive_service_data = comprehensive_service_Status.data;
+									        var system_efficiency_test_Status = table.checkStatus('system_efficiency_test_table');
+									        system_efficiency_test_data = system_efficiency_test_Status.data;
+									        var due_diligence_Status = table.checkStatus('due_diligence_table');
+									        due_diligence_data = due_diligence_Status.data;
+									        var completion_acceptance_Status = table.checkStatus('completion_acceptance_table');
+									        completion_acceptance_data = completion_acceptance_Status.data;
+									        var inspection_incoming_merchandise_Status = table.checkStatus('inspection_incoming_merchandise_table');
+									        inspection_incoming_merchandise_data = inspection_incoming_merchandise_Status.data;
+											//"{基础文件:'',工程图纸:'',}"
+									       var array = [];
+											for(var k in comprehensive_service_data){
+													array.push(comprehensive_service_data[k].id);	
+												};
+											for(var k in system_efficiency_test_data){
+													array.push(system_efficiency_test_data[k].id);	
+												};
+											for(var k in due_diligence_data){
+													array.push(due_diligence_data[k].id);	
+												};
+											for(var k in completion_acceptance_data){
+													array.push(completion_acceptance_data[k].id);	
+												};
+											for(var k in inspection_incoming_merchandise_data){
+													array.push(inspection_incoming_merchandise_data[k].id);	
+												};
+
+										    	layer.confirm('确定仅配置'+array.length+'项吗？点击下一步试试',
+												  {
+										            btn: ['继续配置','仅'+array.length+'项提交配置'] //按钮
+										          }, function(){
+										        	  layer.msg("继续配置");
+										          }, function(){
+										        	  console.dir(array.length+'项提交配置');
+										        	  var json = JSON.stringify(array);
+												      $.post("/serveinfo/addServiceDetail",
+												        	    {
+												        	        id:#(serUser.id),
+												        	        json:json
+												        	    },
+												        	        function(data,status){
+												        	        	if(data.code==0)
+													        	        	{
+												        	        			layer.msg("保存成功", {icon: 1});
+													        	        	}else{
+													        	        		layer.msg('保存失败'); 
+														        	        	}
+												        	    }); 
+										          });
+									       
+									      });
+								
+							});
+
+		</script>
+</body>
+</html>
+

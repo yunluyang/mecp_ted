@@ -1,0 +1,461 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>责任人编辑</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css"
+	media="all">
+<link rel="stylesheet" href="../../../layuiadmin/style/admin.css"
+	media="all">
+<link rel="stylesheet" type="text/css"
+	href="../views/tprocess/css/font-awesome.4.6.0.css">
+<link rel="stylesheet" href="../../views/tprocess/css/excel.css"
+	type="text/css" />
+<script type="text/javascript"
+	src="../views/tprocess/js/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="../views/tprocess/js/excel.min.js"></script>
+
+<link rel="stylesheet" href="../css/element.min.css" />
+<script type="text/javascript" src="../js/vue.min.js"></script>
+<script type="text/javascript" src="../js/element.min.js"></script>
+</head>
+<body class="childBody">
+	<div class="layui-card">
+		<div class="layui-card-body">
+			<div class="layui-card-header" style="text-align: center">
+				<h3>
+					<strong>#(serUser.name)</strong>
+				</h3>
+			</div>
+			<div class="layui-tab layui-tab-brief"
+				lay-filter="component-tabs-brief">
+				<ul class="layui-tab-title">
+					<li class="layui-this">合同签署</li>
+					<li>责任人分配</li>
+					<li>检测数据录入</li>
+					<li>简洁报告录入</li>
+					<li>完整报告录入</li>
+					<li>结算材料录入</li>
+				</ul>
+				<div class="layui-tab-content">
+					<div class="layui-tab-item  layui-show">
+						<div class="layui-col-md12">
+							<div class="layui-card">
+								<div class="layui-card-header">合同上传</div>
+								<div class="layui-card-body">
+									<div class="layui-upload-drag" id="test-upload-drag">
+										<i class="layui-icon"></i>
+										<p>点击上传，或将合同文件拖拽到此处</p>
+									</div>
+								</div>
+							</div>
+								  <hr class="layui-bg-green">
+									<div class="layui-card-header">历史上传合同记录</div>
+									<table class="layui-table">
+										<thead>
+											<tr>
+												<th>位置</th>
+												<th>时间</th>
+												<th>上传者</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+										<tbody id="contractList">
+											#for(x:contract_list)
+											<tr  id="contract-#(for.count)">
+												<td>#(x.file_name)</td>
+												<td>#(x.time)</td>
+												<td>#(x.editor)</td>
+												<td><a class="layui-btn layui-btn-normal"
+													href="/download/downloadFile?path=#(x.path)">点击查看</a></td>
+											</tr>
+											#end
+										</tbody>
+									</table>
+						</div>
+					</div>
+					<div class="layui-tab-item">
+						<form class="layui-form layui-form-pane" action=""
+							lay-filter='formTest'>
+							<div class="layui-form-item" hidden=hidden>
+								<label class="layui-form-label">检测项目编号</label>
+								<div class="layui-input-block">
+									<input type="text" name="serUserId" placeholder="请输入"
+										autocomplete="off" class="layui-input" value=#(serUserId)>
+								</div>
+							</div>
+							<table class="layui-table" style="text-align: center;">
+								<colgroup>
+									<col width="150">
+									<col width="200">
+									<col>
+								</colgroup>
+								<thead>
+									<tr>
+										<th style="text-align: center;">序号</th>
+										<th style="text-align: center;">项目名称</th>
+										<th style="text-align: center;">责任人</th>
+									</tr>
+								</thead>
+								<tbody>
+									#for(x:data)
+									<tr>
+										<td>#(for.count)</td>
+										<td>#(x.name)</td>
+										<td><select name=#(x.id) lay-filter=#(x.id)>
+												#for(p:team) #if(p.id==x.pinc)
+												<option value=#(p.id) selected="selected">#(p.name)</option>
+												#else
+												<option value=#(p.id)>#(p.name)</option> #end #end
+										</select></td>
+									</tr>
+									#end
+								</tbody>
+							</table>
+							<div class="layui-form-item">
+								<div class="layui-input-block">
+									<button class="layui-btn" type="button" lay-submit
+										lay-filter="submit">立即提交</button>
+									<button type="reset" class="layui-btn layui-btn-primary">重置</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="layui-tab-item">
+						<table class="layui-table" style="text-align: center;">
+							<colgroup>
+								<col width="150">
+								<col width="200">
+								<col>
+							</colgroup>
+							<thead>
+								<tr>
+									<th style="text-align: center;">序号</th>
+									<th style="text-align: center;">项目名称</th>
+									<th style="text-align: center;">责任人</th>
+									<th style="text-align: center;">是否录入</th>
+									<th style="text-align: center;">检测数据录入</th>
+								</tr>
+							</thead>
+							<tbody>
+								#for(x:data)
+								<tr>
+									<td>#(for.count)</td>
+									<td>#(x.name)</td>
+									<td>#for(p:team) #if(p.id==x.pinc) #(p.name) #end#end</td>
+									<td>#if(x.serve_detail_id==0) <a href="#"
+										class="layui-btn layui-btn-danger layui-btn-xs">未录入</a> #else
+										<a href="#" class="layui-btn layui-btn-xs">已录入</a> #end
+									</td>
+									<td><button class="layui-btn layui-btn-normal"
+											onclick="doPost('jumpToTable', {'serUserId':#(serUserId),'serInfoId':#(x.id)})">检测数据录入</button></td>
+								</tr>
+								#end
+							</tbody>
+						</table>
+					</div>
+					<div class="layui-tab-item">
+						<input type="button" class="layui-btn layui-btn-danger" value="保存"
+							onClick="save()">
+						<div class="wyb-excel" style="width: 100%; margin: 0 auto;"></div>
+						<br> <strong> 填写说明：为了表格的适配，请把第一行空下切不要合并第一行单元格</strong>
+					</div>
+					<div class="layui-tab-item">
+						<div class="layui-col-md12">
+							<div class="layui-card">
+								 <div class="layui-card-body">
+								<div class="layui-card-header">(一)上传完整服务报告</div>
+									<div class="layui-upload">
+										<button type="button" class="layui-btn layui-btn-normal"
+											id="test-upload-testList">选择PDF文件</button>
+										<div class="layui-upload-list">
+											<table class="layui-table">
+												<thead>
+													<tr>
+														<th>文件名</th>
+														<th>大小</th>
+														<th>状态</th>
+														<th>操作</th>
+													</tr>
+												</thead>
+												<tbody id="test-upload-demoList"></tbody>
+											</table>
+										</div>
+										<button type="button" class="layui-btn"
+											id="test-upload-testListAction">开始上传</button>
+									</div>
+									        <hr class="layui-bg-green">
+									<div class="layui-card-header">(二)历史上传完整报告记录</div>
+									<table class="layui-table">
+										<thead>
+											<tr>
+												<th>位置</th>
+												<th>时间</th>
+												<th>上传者</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+										<tbody id="upList">
+											#for(x:list)
+											<tr>
+												<td>#(x.file_name)</td>
+												<td>#(x.time)</td>
+												<td>#(x.editor)</td>
+												<td><a class="layui-btn layui-btn-normal"
+													href="/download/downloadFile?path=#(x.path)">点击查看</a></td>
+											</tr>
+											#end
+										</tbody>
+									</table>
+								</div> 
+							</div>
+						</div>
+					</div>
+					<div class="layui-tab-item">
+							<div class="layui-col-md12">
+							<div class="layui-card">
+								<div class="layui-card-header">结算材料上传</div>
+								<div class="layui-card-body">
+									<div class="layui-upload-drag" id="sm-upload-drag">
+										<i class="layui-icon"></i>
+										<p>点击上传，或将结算材料拖拽到此处</p>
+									</div>
+								</div>
+							</div>
+								        <hr class="layui-bg-green">
+									<div class="layui-card-header">历史上传结算材料记录</div>
+									<table class="layui-table">
+										<thead>
+											<tr>
+												<th>位置</th>
+												<th>时间</th>
+												<th>上传者</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+										<tbody id="smList">
+											#for(x:sm_list)
+											<tr  id="sm-#(for.count)">
+												<td>#(x.file_name)</td>
+												<td>#(x.time)</td>
+												<td>#(x.editor)</td>
+												<td><a class="layui-btn layui-btn-normal"
+													href="/download/downloadFile?path=#(x.path)">点击查看</a></td>
+											</tr>
+											#end
+										</tbody>
+									</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="../../../layuiadmin/layui/layui.js"></script>
+	<script>
+		layui.config({
+			base : '../../../layuiadmin/' //静态资源所在路径
+		}).extend({
+			index : 'lib/index' //主入口模块
+		}).use([ 'index', 'form','upload' ,'element'], function() {
+			var $ = layui.$, admin = layui.admin, form = layui.form,upload = layui.upload , element=layui.element;
+
+			    //小项文件报告
+			    var demoListView = $('#test-upload-demoList')
+			    ,listView = $('#upList'),contractView = $('#contractList'),smView= $('#smList')
+			    ,uploadListIns = upload.render({
+			      elem: '#test-upload-testList'
+			     ,url: '/upload/upload' //上传接口
+						    ,data: {
+						    		  type:1,
+						    		  id:#(serUser.id)
+						    		}
+			      ,accept: 'file'
+					  ,exts:'pdf'
+			      ,auto: false
+			      ,bindAction: '#test-upload-testListAction'
+			      ,choose: function(obj){   
+					demoListView.html('');
+			        var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
+			        //读取本地文件
+			        obj.preview(function(index, file, result){
+			          var tr = $(['<tr id="upload-'+ index +'">'
+			            ,'<td>'+ file.name +'</td>'
+			            ,'<td>'+ (file.size/1014).toFixed(1) +'kb</td>'
+			            ,'<td>等待上传</td>'
+			            ,'<td>'
+			              ,'<button class="layui-btn layui-btn-mini test-upload-demo-reload layui-hide">重传</button>'
+			              ,'<button class="layui-btn layui-btn-mini layui-btn-danger test-upload-demo-delete">删除</button>'
+			            ,'</td>'
+			          ,'</tr>'].join(''));
+			          
+			          //单个重传
+			          tr.find('.test-upload-demo-reload').on('click', function(){
+			            obj.upload(index, file);
+			          });
+			          
+			          //删除
+			          tr.find('.test-upload-demo-delete').on('click', function(){
+			            delete files[index]; //删除对应的文件
+			            tr.remove();
+			            uploadListIns.config.elem.next()[0].value = ''; //清空 input file 值，以免删除后出现同名文件不可选
+			          });
+			          demoListView.append(tr);
+			        });
+			      } 
+			      ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+		    		    layer.load(1); //上传loading
+		    		  }
+			      ,done: function(res, index, upload){
+			        if(res.code == 0){
+				         //上传成功
+			          layer.closeAll('loading');
+			          layer.msg("上传成功");
+			          var tr = demoListView.find('tr#upload-'+ index)
+			          ,tds = tr.children();
+			          tds.eq(2).html('<span style="color: #5FB878;">上传成功</span>');
+			          tds.eq(3).html(''); //清空操作
+				        listView.append(tr);
+			          return delete this.files[index]; //删除文件队列已经上传成功的文件
+			        }else{
+			        	  layer.closeAll('loading');
+				          layer.msg("上传失败，请稍后尝试");
+				        }
+			        this.error(index, upload);
+			      }
+			      ,error: function(index, upload){
+			        var tr = demoListView.find('tr#upload-'+ index)
+			        ,tds = tr.children();
+			        tds.eq(2).html('<span style="color: #FF5722;">上传失败</span>');
+			        tds.eq(3).find('.test-upload-demo-reload').removeClass('layui-hide'); //显示重传
+			          layer.closeAll('loading');
+			      }
+			    });
+			    //合同拖拽上传
+			    upload.render({
+			      elem: '#test-upload-drag'
+			      ,url: '/upload/upload'
+				  ,accept: 'file'
+					  ,exts:'pdf'
+				  ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+		    		    layer.load(1); //上传loading
+	    		  }
+				 ,data: {
+		    		  type:2,
+		    		  id:#(serUser.id)
+		    		}
+			      ,done: function(res){
+			    	  if(res.code == 0){
+					         //上传成功
+				          layer.closeAll('loading');
+				          layer.msg("上传成功");
+				          var tr = "<tr><td>"+res.fileName+"</td><td>刚刚</td><td  style='color: #5FB878;'>上传成功</td></tr>" //清空操作
+				          contractView.append(tr);
+				          return delete this.files[index]; //删除文件队列已经上传成功的文件
+				        }else{
+				        	  layer.closeAll('loading');
+					          layer.msg("上传失败，请稍后尝试");
+					        }
+				        this.error(index, upload);
+			      }
+			      ,error: function(index, upload){
+			    	  var tr = "<tr><td>"+res.fileName+"</td><td>刚刚</td><td  style='color: #FF5722;'>上传失败</td></tr>" //清空操作
+			          contractView.append(tr);
+				      }
+			    });
+
+			    //结算材料拖拽上传
+			    upload.render({
+			      elem: '#sm-upload-drag'
+			      ,url: '/upload/upload'
+				  ,accept: 'file'
+				  ,exts:'pdf'
+				  ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+		    		    layer.load(1); //上传loading
+	    		  }
+				 ,data: {
+		    		  type:3,
+		    		  id:#(serUser.id)
+		    		}
+			      ,done: function(res){
+			    	  if(res.code == 0){
+					         //上传成功
+				          layer.closeAll('loading');
+				          layer.msg("上传成功");
+				          var tr = "<tr><td>"+res.fileName+"</td><td>刚刚</td><td  style='color: #5FB878;'>上传成功</td></tr>" //清空操作
+				          smView.append(tr);
+				          return delete this.files[index]; //删除文件队列已经上传成功的文件
+				        }else{
+				        	  layer.closeAll('loading');
+					          layer.msg("上传失败，请稍后尝试");
+					        }
+				        this.error(index, upload);
+			      }
+			      ,error: function(index, upload){
+			    	  var tr = "<tr><td>"+res.fileName+"</td><td>刚刚</td><td  style='color: #FF5722;'>上传失败</td></tr>" //清空操作
+			    	  smView.append(tr);
+				      }
+			    });
+			    
+
+			
+			//监听提交
+			form.on('submit(submit)', function(data) {
+				$.ajax({
+					url : '/tprocess/editPinC',
+					type : 'post',
+					data : $(data.form).serialize(),
+					success : function(info) {
+						if (info.code === 0) {
+							layer.msg("提交成功");
+						}
+					}
+				});
+				return true;
+			});
+		});
+		$(".wyb-excel").wybExcel();
+		$(".wyb-excel").setExcelHtml('#(table)');
+
+		function save(){
+			var t=$(".wyb-excel").getExcelHtml();
+			   $.post("/tprocess/saveConciseReport",
+					    {
+				   			serUserId:#(serUser.id),
+				   			table:t
+					    },
+					        function(data,status){
+					       	if(data.code==0){
+						          layer.msg("保存成功");
+						          }else{
+						        	  layer.msg("保存失败");
+							          }
+					    });
+		}
+	</script>
+	         
+	<script>  
+        function doPost(to, p) {  // to:提交动作（action）,p:参数  
+            var myForm = document.createElement("form");       
+            myForm.method = "post";  
+            myForm.action = to;   
+        for (var i in p){      
+                  var myInput = document.createElement("input");       
+                    myInput.setAttribute("name", i);  // 为input对象设置name  
+                    myInput.setAttribute("value", p[i]);  // 为input对象设置value  
+                    myForm.appendChild(myInput);  
+                }     
+                document.body.appendChild(myForm);     
+                myForm.submit();   
+                document.body.removeChild(myForm);  // 提交后移除创建的form  
+        }  
+    </script>
+	    
+</body>
+</html>

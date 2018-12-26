@@ -1,0 +1,119 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>数据查看</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css"
+	media="all">
+<link rel="stylesheet" href="../../../layuiadmin/style/admin.css"
+	media="all">
+
+
+<link rel="stylesheet" href="../../css/views/common.css" media="all">
+<link rel="stylesheet" type="text/css"
+	href="../views/tprocess/css/font-awesome.4.6.0.css">
+<link rel="stylesheet" href="../views/tprocess/css/excel.css"
+	type="text/css" />
+<script type="text/javascript"
+	src="../views/tprocess/js/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="../views/tprocess/js/excel.min.js"></script>
+
+<style type="text/css" media="screen">
+       table,table tr th, table tr td { border:2px solid #000000; }
+</style>
+</head>
+<body>
+	<div class="layui-container"> 
+	<div class="layui-fluid">
+		<div class="layui-row layui-col-space15">
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-card-header" style="text-align: center">
+						<h3>
+							<strong>#(serveDetail.inspection_items)(数据报表)</strong>
+						</h3>
+					</div>
+					<div class="layui-card-header" style="text-align: right;">
+							数据录入:#(serveDetail.editor)&nbsp时间：#(time)
+					</div>
+					<div class="layui-card-body">
+						<div class="wyb-excel">#(table)</div>
+					</div>
+				</div>
+				<div class="layui-card">
+					<blockquote class="layui-elem-quote" style="margin-top: 10px;">
+              			<h3><strong>表格数据说明</strong></h3>
+            		</blockquote>
+					<div class="layui-card-body">
+						<div class="layui-collapse" lay-filter="component-panel">
+							<div class="layui-colla-item">
+								<h2 class="layui-colla-title">(一)为什么mecp要用这个系统？</h2>
+								<div class="layui-colla-content">
+									<p>因为我帅帅帅</p>
+								</div>
+							</div>
+							<div class="layui-colla-item">
+								<h2 class="layui-colla-title">(二)不认可数据准确性怎么办？</h2>
+								<div class="layui-colla-content">
+									<p>因为不适合。如果希望开发长期的项目或者制作产品类网站，那么就需要实现特定的设计，为了在维护项目中可以方便地按设计师要求快速修改样式，肯定会逐步编写出各种业务组件、工具类，相当于为项目自行开发一套框架。——来自知乎@Kayo</p>
+								</div>
+							</div>
+							<div class="layui-colla-item">
+								<h2 class="layui-colla-title">(三)本系统更适合哪些人？</h2>
+								<div class="layui-colla-content">
+									<p>
+										不知道
+										<br>
+										<br> 真的不知道。
+									</p>
+								</div>
+							</div>
+							<div class="layui-colla-item">
+								<h2 class="layui-colla-title">(四)这是干嘛的？</h2>
+								<div class="layui-colla-content">
+									<p>防止表格过小，界面不好看而已</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+
+	<script src="../../../layuiadmin/layui/layui.js"></script>
+
+	<script>
+		layui
+				.config({
+					base : '../../../layuiadmin/' //静态资源所在路径
+				})
+				.extend({
+					index : 'lib/index' //主入口模块
+				})
+				.use(
+						[ 'index' ],
+						function() {
+							var $ = layui.$, admin = layui.admin, element = layui.element, router = layui
+									.router();
+							element.render('collapse');
+							//监听折叠
+							element.on('collapse(component-panel)', function(
+									data) {
+								//layer.msg('展开状态：'+ data.show);
+							});
+						});
+	</script>
+	<script>
+			//无需再执行layui.use()方法加载模块，直接使用即可
+		//	$(".wyb-excel").innerHTML = #(table);
+	</script>
+</body>
+</html>

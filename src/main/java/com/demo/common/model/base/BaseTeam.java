@@ -73,4 +73,12 @@ public abstract class BaseTeam<M extends BaseTeam<M>> extends Model<M> implement
 		return getStr("email");
 	}
 
+	public void setUsername(java.lang.String username) {
+		set("username", username);
+	}
+	
+	public java.lang.String getUsername() {
+		return getStr("username");
+	}
+
 }

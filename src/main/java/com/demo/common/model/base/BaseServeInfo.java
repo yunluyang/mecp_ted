@@ -41,4 +41,12 @@ public abstract class BaseServeInfo<M extends BaseServeInfo<M>> extends Model<M>
 		return getStr("type");
 	}
 
+	public void setTemplateId(java.lang.Integer templateId) {
+		set("template_id", templateId);
+	}
+	
+	public java.lang.Integer getTemplateId() {
+		return getInt("template_id");
+	}
+
 }

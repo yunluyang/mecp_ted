@@ -24,7 +24,7 @@
             </a>
           </li>
           <li class="layui-nav-item layui-hide-xs" lay-unselect>
-            <a href="http://www.layui.com/admin/" target="_blank" title="前台">
+            <a href="../index.html" target="_blank" title="前台">
               <i class="layui-icon layui-icon-website"></i>
             </a>
           </li>
@@ -40,11 +40,13 @@
         <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
           
           <li class="layui-nav-item" lay-unselect>
-            <a lay-href="app/message/index.html" layadmin-event="message" lay-text="消息中心">
-              <i class="layui-icon layui-icon-notice"></i>  
+            <a lay-href="/views/app/message/index.html" layadmin-event="message" lay-text="消息中心">
+              <i class="layui-icon layui-icon-notice"></i> 
               
               <!-- 如果有新消息，则显示小圆点 -->
+              #if(user.unread)
               <span class="layui-badge-dot"></span>
+              #end 
             </a>
           </li>
           <li class="layui-nav-item layui-hide-xs" lay-unselect>
@@ -70,7 +72,7 @@
               <dd><a lay-href="set/user/info.html">基本资料</a></dd>
               <dd><a lay-href="set/user/password.html">修改密码</a></dd>
               <hr>
-              <dd layadmin-event="logout" style="text-align: center;"><a>退出</a></dd>
+              <dd style="text-align: center;"><a href="../loginOut">退出</a></dd>
             </dl>
           </li>
           
@@ -86,7 +88,7 @@
       <!-- 侧边菜单 -->
       <div class="layui-side layui-side-menu">
         <div class="layui-side-scroll">
-          <div class="layui-logo" lay-href="../views/commoninfo/customer2.html">
+          <div class="layui-logo" lay-href="../customer">
             <span>旻投电力检测评估平台</span>
           </div>
           
@@ -98,7 +100,7 @@
               </a>
               <dl class="layui-nav-child">
                 <dd data-name="console" class="layui-this">
-                  <a lay-href="../views/commoninfo/customer2.html">客户信息</a>
+                  <a lay-href="../customer">客户信息</a>
                 </dd>
                 <dd data-name="console">
                   <a lay-href="../common/teamlistHtml">技术服务团队</a>
@@ -126,32 +128,14 @@
                 <cite>服务内容</cite>
               </a>
             </li>
-            <li data-name="component" class="layui-nav-item">
-              <a href="javascript:;" lay-tips="业务处理" lay-direction="2">
-                <i class="layui-icon layui-icon-component"></i>
-                <cite>业务处理</cite>
-              </a>
-              <dl class="layui-nav-child">
-                <dd data-name="grid">
-                <dd data-name="tabs">
-                  <a lay-href="component/tabs/index.html">服务内容配置</a>
-                </dd>
-                <dd data-name="progress">
-                  <a lay-href="component/progress/index.html">检测数据录入</a>
-                </dd>
-                <dd data-name="panel"> 
-                  <a lay-href="component/panel/index.html">业务查询设置</a>  
-                </dd>
-                <dd data-name="badge"> 
-                  <a lay-href="component/badge/index.html">报告录入</a>  
-                </dd>
-            </li>
-             <li data-name="get" class="layui-nav-item">
-              <a href="javascript:;" lay-href="//www.layui.com/admin/#get" lay-tips="授权" lay-direction="2">
-                <i class="layui-icon layui-icon-component"></i>
-                <cite>业务查询</cite>
+            #if(user.rid==1||user.rid==2)
+            <li data-name="get" class="layui-nav-item">
+              <a lay-href="../tprocess/index" lay-tips="服务内容配置" lay-direction="2">
+                <i class="layui-icon layui-icon-survey"></i>
+                <cite>服务内容配置</cite>
               </a>
             </li>
+            #end
             <li data-name="app" class="layui-nav-item">
               <a href="javascript:;" lay-tips="在线报价" lay-direction="2">
                 <i class="layui-icon layui-icon-app"></i>
@@ -159,25 +143,50 @@
               </a>
               <dl class="layui-nav-child">
                 <dd data-name="content">
-                  <a href="javascript:;">套餐服务</a>
-                  <dl class="layui-nav-child">
-                    <dd data-name="list"><a lay-href="app/content/list.html">系统效率套餐</a></dd>
-                    <dd data-name="tags"><a lay-href="app/content/tags.html">尽职调查套餐</a></dd>
-                    <dd data-name="comment"><a lay-href="app/content/comment.html">竣工验收套餐</a></dd>
-                    <dd data-name="comment"><a lay-href="app/content/comment.html">到货验收套餐</a></dd>
-                  </dl>
+                  <a href="javascript:;" lay-href="../views/price/price.html">套餐服务</a>
                 </dd> 
-                 <dd>
-                  <a lay-href="app/message/index.html">报价总览1</a>
-                </dd>
-                <dd data-name="forum">
-                  <a href="javascript:;">报价总览2</a>
+              </dl>
+              </li>
+                 #if(user.rid==1||user.rid==2)
+                <li data-name="user" class="layui-nav-item">
+              <a lay-href="../views/user/user/list.html" lay-tips="用户管理" lay-direction="2">
+                <i class="layui-icon layui-icon-user"></i>
+                <cite>用户</cite>
+              </a>
+            </li>
+            #end
+            
+            
+             #if(user.rid==2)
+            <li data-name="edit" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="网站编辑" lay-direction="2">
+                <i class="layui-icon layui-icon-app"></i>
+                <cite>网站编辑</cite>
+              </a>
                   <dl class="layui-nav-child">
-                    <dd data-name="list"><a lay-href="app/forum/list.html">查询</a></dd>
+                    <dd><a lay-href="../customer/gotoHtmlCustomer">客户数据</a></dd>
+                    <dd><a lay-href="../serveinfo/gotoTeamHtml">团队信息</a></dd>
+                    <dd><a lay-href="../serveinfo/serviceInfoEdit">检测服务</a></dd>
+                    <dd><a lay-href="../serveinfo/gotoCodHtml">检测标准及依据</a></dd>
+                    <dd><a lay-href="../serveinfo/gotoTestDetecDeviceHtml">检测设备</a></dd>
+                  </dl>
+              </li>
+              #end
+            <li data-name="set" class="layui-nav-item">
+              <a href="javascript:;" lay-tips="设置" lay-direction="2">
+                <i class="layui-icon layui-icon-set"></i>
+                <cite>设置</cite>
+              </a>
+              
+              <dl class="layui-nav-child">
+                <dd class="layui-nav-itemed">
+                  <dl class="layui-nav-child">
+                    <dd><a lay-href="../views/set/user/info.html">基本资料</a></dd>
+                    <dd><a lay-href="../views/set/user/password.html">修改密码</a></dd>
                   </dl>
                 </dd>
-              
               </dl>
+            </li>
           </ul>
         </div>
       </div>
@@ -200,7 +209,7 @@
         </div>
         <div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs">
           <ul class="layui-tab-title" id="LAY_app_tabsheader">
-            <li lay-id="../views/commoninfo/customer2.html" lay-attr="commoninfo/customer2.html" class="layui-this"><i class="layui-icon layui-icon-home"></i></li>
+            <li lay-id="../customer" lay-attr="commoninfo/customer2.html" class="layui-this"><i class="layui-icon layui-icon-home"></i></li>
           </ul>
         </div>
       </div>
@@ -209,7 +218,7 @@
       <!-- 主体内容 -->
       <div class="layui-body" id="LAY_app_body">
         <div class="layadmin-tabsbody-item layui-show">
-          <iframe src="../views/commoninfo/customer2.html" frameborder="0" class="layadmin-iframe"></iframe>
+          <iframe src="../customer" frameborder="0" class="layadmin-iframe"></iframe>
         </div>
       </div>
       

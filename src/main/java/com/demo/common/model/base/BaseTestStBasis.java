@@ -49,4 +49,12 @@ public abstract class BaseTestStBasis<M extends BaseTestStBasis<M>> extends Mode
 		return getStr("standard_file");
 	}
 
+	public void setFileId(java.lang.Long fileId) {
+		set("file_id", fileId);
+	}
+	
+	public java.lang.Long getFileId() {
+		return getLong("file_id");
+	}
+
 }

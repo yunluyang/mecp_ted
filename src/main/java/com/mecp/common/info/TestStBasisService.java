@@ -12,6 +12,10 @@ import com.jfinal.plugin.activerecord.tx.Tx;
 public class TestStBasisService {
 	private TestStBasis dao = new TestStBasis().dao();
 	
+	public TestStBasis queryById(int idValue){
+		return dao.findById(idValue);
+	}
+	
 	public List<TestStBasis> getAllTeam(){
 		return dao.find("select * from test_st_basis order by id asc");
 	}

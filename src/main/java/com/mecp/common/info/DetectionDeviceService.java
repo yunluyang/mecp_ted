@@ -12,6 +12,10 @@ import com.jfinal.plugin.activerecord.tx.Tx;
 public class DetectionDeviceService {
 	private DetectionDevice dao = new DetectionDevice().dao();
 	
+	public DetectionDevice getById(int id){
+		return dao.findFirst("select * from detection_device where id = ?",id);
+	}
+	
 	public List<DetectionDevice> getAllTeam(){
 		return dao.find("select * from detection_device order by id asc");
 	}

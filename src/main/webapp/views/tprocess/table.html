@@ -1,0 +1,133 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>数据录入</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<link rel="stylesheet" href="/layuiadmin/layui/css/layui.css"
+	media="all">
+<link rel="stylesheet" href="/layuiadmin/style/admin.css"
+	media="all">
+
+<link href="/css/editTable.css" type="text/css" rel="stylesheet" />
+<link rel="stylesheet" href="/css/views/common.css" media="all">
+<link rel="stylesheet" type="text/css" href="/views/tprocess/css/font-awesome.4.6.0.css">
+<link rel="stylesheet" href="/views/tprocess/css/excel.css" type="text/css" />
+<script type="text/javascript" src="/views/tprocess/js/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="/views/tprocess/js/excel.min.js"></script>
+<script type="text/javascript" src="/js/editTable.js"></script>
+
+</head>
+<body>
+
+	<div class="layui-container"> 
+	<div class="layui-fluid">
+		<div class="layui-row layui-col-space15">
+			<div class="layui-col-md12">
+				<div class="layui-card">
+					<div class="layui-row">
+					<button type="button" class="layui-btn" id="upload-excel"><i class="layui-icon">&#xe62d;</i>上传Excel</button>
+					<button hidden="hidden" type="button" style="float:right"  class="layui-btn layui-btn-danger" id="save" onclick="save()"><i class="layui-icon">&#xe621;</i>保存</button>
+					<a hidden="hidden" id="download" class="layui-btn layui-btn-primary" href="/download/downloadFile?path=#(path)" target="_blank">下载excel</a>
+					<blockquote class="layui-elem-quote" style="margin-top: 10px;">
+              			<strong>注：仅能上传.xls格式excel<br />&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp编辑表格时Enter保存和Esc取消,最后点击保存按钮提交</strong>
+            		</blockquote>
+					</div>
+					<div class="layui-card-header" style="text-align: center">
+						<h3>
+							<strong>#(serveInfo.inspection_items)(#(serUser.name))</strong>
+						</h3>
+					</div>
+					 <hr class="layui-bg-green">
+					<div class="layui-card-body layui-col-md12">
+							<div id='table'>#(table)</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+
+	<script src="/layuiadmin/layui/layui.js"></script>
+	<script>
+	$(document).ready(function(){
+	var path = $('#table').text();
+    if(path){
+    	 $("#save").show();
+    	 $("#download").show();
+	    }else{
+	    	 $("#save").hide();
+	    	 $("#download").hide();
+		    }
+    }
+    );
+	
+	  layui.config({
+		    base: '/layuiadmin/' //静态资源所在路径
+		  }).extend({
+		    index: 'lib/index' //主入口模块
+		  }).use(['index', 'upload','form','jquery'], function(){
+		    var $ = layui.jquery
+		    ,form= layui.form
+		    ,upload = layui.upload;
+		    form.render();
+		    //指定允许上传的文件类型
+		    upload.render({
+		      elem: '#upload-excel'
+		      ,url: '/upload/uploadExcel'
+		      ,accept: 'file' //普通文件
+		      ,exts:'xls'
+		      ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+		    		    layer.load(1); //上传loading
+	    		  }
+			  ,data: {
+				  	serUserId:#(serUser.id),
+		   			serInfoId:#(serveInfo.id),
+				  }
+		      ,done: function(res){
+		          layer.closeAll('loading');
+		    	  if(res.code==0){
+			          layer.msg("保存成功");
+			          $("#table").append(res.result);
+			      	  $("tbody tr:odd").css("background-color","#EEEEEE");
+			          trEdit();//td的点击事件封装成一个函数
+			     	 $("#save").show();
+			    	 $("#download").show();
+			      //    $("table").addClass("edtitable");
+			        }else{
+			        	layer.alert('添加失败', {icon: 1});
+				        }
+		      }
+		    });
+		  });
+
+	  function save(){
+			var t=$("#table").html();
+			console.dir(t);
+			if (t.indexOf("<input") >= 0) {
+				//当前td中input，不执行click处理
+	        	layer.alert('添加失败,请先保存所有更改数据', {icon: 5});
+	        	return false;
+			}
+			   $.post("/tprocess/saveTable",
+					    {
+				   			serUserId:#(serUser.id),
+				   			serInfoId:#(serveInfo.id),
+				   			table:t
+					    },
+					        function(data,status){
+					        if(data.code==0){
+						          layer.msg("保存成功");
+						        }else{
+						        	layer.alert('添加失败', {icon: 1});
+							        }
+					    });  
+		}
+	</script>
+</body>
+</html>

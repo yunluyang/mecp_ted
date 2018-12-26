@@ -1,0 +1,56 @@
+﻿@charset "utf-8";
+body {margin:0 auto;background:#fff;color:#333;line-height:1.5em;font-family:Microsoft YaHei,SimSun,sans-serif,Arial;font-size:14px;min-width:1190px;}
+html,body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,hr,label,em,strong,sub,sup,tt,pre,code,form,fieldset,legend,input,button,caption,tbody,tfoot,thead,tr,textarea,p,blockquote,table,th,td,img,a {margin:0;padding:0;border:none;}ul,li,dl {list-style:none;}
+input,select,textarea{vertical-align:middle;}
+select{border:1px solid #ddd;}
+a {color:#333;text-decoration:none;}
+a:hover {color:#ff5e00;}
+
+/**********初始化样式end*********//*******sunnavend********/
+.mainbox_one{height:622px;background:#f5f6f6;padding-top:60px;text-align:center;}
+.main{width:1140px;margin:0 auto;}
+.main h1{font-size:30px;font-weight:normal;color:#333;}
+.main p{margin-top:20px;}
+
+.sublist{margin-top:40px;height:460px;background-color:#fff;}
+.sublist .list{float:left;width:284px;height:458px;border:1px solid #CCCCCC;border-left:none;}
+.sublist .list_first{width:283px;border-left:1px solid #CCCCCC;}
+.sublist .list_one{float:left;width:283px;height:458px;border:1px solid #FF7200;position:relative;top:0;cursor:pointer;}
+.sublist .list:hover{position:relative;-webkit-animation:dese 0.5s 1;-moz-animation:dese 0.5s 1;animation:dese 0.5s 1;box-shadow:0 10px 20px #ccc;-webkit-box-shadow:0 10px 20px #ccc;-moz-box-shadow:0 10px 20px #ccc;top:-1px;}
+
+@-moz-keyframes dese{0% {box-shadow:0 0 2px #ccc;-webkit-box-shadow:0 0 2px #ccc;-moz-box-shadow:0 0 2px #ccc;top:0px;}
+100% {box-shadow:0 10px 20px #ccc;-webkit-box-shadow:0 10px 20px #ccc;-moz-box-shadow:0 10px 20px #ccc;top:-1px;}}
+@-webkit-keyframes dese{0% {box-shadow:0 0 2px #ccc;-webkit-box-shadow:0 0 2px #ccc;-moz-box-shadow:0 0 2px #ccc;top:0px;}
+100% {box-shadow:0 10px 20px #ccc;-webkit-box-shadow:0 10px 20px #ccc;-moz-box-shadow:0 10px 20px #ccc;top:-1px;}}
+@keyframes dese{0% {box-shadow:0 0 2px #ccc;-webkit-box-shadow:0 0 2px #ccc;-moz-box-shadow:0 0 2px #ccc;top:0px;}
+100% {box-shadow:0 10px 20px #ccc;-webkit-box-shadow:0 10px 20px #ccc;-moz-box-shadow:0 10px 20px #ccc;top:-1px;}}
+
+.sublist .list .list_head{height:150px;position:relative;background:#f9f9f9;}
+.sublist .list_one .list_head{background-image:-webkit-linear-gradient(top, #ff5600, #ff8201);background-image:-moz-linear-gradient(top, #ff5600, #ff8201);background-image:-ms-linear-gradient(top, #ff5600, #ff8201);}
+.sublist .list .list_head h2{padding-top:38px;}
+.sublist .list_one .list_head h2{color:#fff;}
+.sublist .list .list_head p{margin-top:20px;}
+.sublist .list_one .list_head p{color:#fff;}
+.sublist .list .list_content{background:#fff;cursor:pointer;text-align:left;}
+.sublist .list .img{position:absolute;bottom:-33px;left:50%;margin-left:-33px;height:66px;width:66px;z-index:1;}
+.no_on li{margin:9px 0;}.sublist .list .small{position:absolute;z-index:2;top:18px;left:15.5px;}
+.list_span{width:90%;margin:0 auto;font-size:14px;color:#333;letter-spacing:2px;}
+.sublist .list .small_two{position:absolute;z-index:2;top:15.5px;left:13px;}
+.sublist .list .small_three{position:absolute;z-index:2;top:16.5px;left:17px;}
+.sublist .list_one .list_content .list_content_box{/*padding:49px 0 0 80px;*/}
+.sublist .list .list_content .list_content_box{/*padding:48px 0 0 90px;*/}
+.sublist .list .list_content .list_content_box ul{height:111px;}
+.sublist .list .list_content .list_content_box .on{display:none;margin-top:50px;}
+.sublist .list .list_content .list_content_box .on li{margin-top:8px;}
+.sublist .list .list_content .list_content_box .no_on{display:block;width:110px;margin:50px auto 0;}
+.sublist .list_one .list_content .list_content_box li{width:199px;margin:0 auto;}
+.sublist .list .list_content .list_content_box li{/*text-align:left;margin:9px 0;*/}
+.sublist .list .list_content .list_content_box .right{text-align:right;width:102px;}
+.sublist .list .list_content .list_content_box li b{color:#ff7200;}
+.sublist .list .list_content .btn_box{margin:70px 30px 0;height:40px;text-align:center;}
+.sublist .list .list_content .btn_box .btn{width:98px;height:30px;padding-top:8px;}
+.sublist .list .list_content .btn_box .btn_left{border:1px solid #ccc;float:left;}
+.sublist .list .list_content .btn_box .btn_right{border:1px solid #FF7200;float:right;color:#ff7200;}
+.sublist .list_one .list_content .btn_box .btn_left{border:1px solid #FF7200;float:left;color:#ff7200;}
+.sublist .list_one .list_content .btn_box .btn_left a{color:#ff7200;}
+.sublist .list_one .list_content .btn_box .btn_right{border:1px solid #FF7200;float:right;color:#fff;background:#ff7200;}

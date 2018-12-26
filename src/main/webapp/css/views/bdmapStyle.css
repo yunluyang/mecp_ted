@@ -12,44 +12,12 @@ em,i{font-style:normal;}
 :-moz-placeholder{color: #999;font-size:12px;}/* Mozilla Firefox 4 to 18 */
 ::-moz-placeholder{color: #999;font-size:12px;} /* Mozilla Firefox 19+ */
 :-ms-input-placeholder{color: #999;font-size:12px;}/* Internet Explorer 10+ */
-input[type="text"]{
-	width:auto;
-	height:26px;
-	line-height:26px;
-	padding:0 5px;
-	border-radius:3px;
-	border:1px solid #ddd;
-}
-input[type="checkbox"]{
-	appearance:none;
-	-webkit-appearance:none;
-	-moz-appearance:none;
-	-o-appearance:none;
-	-ms-appearance:none;
-	width:18px;
-	height:18px;
-	margin-right:5px;
-	border:1px solid #0ce;
-	border-radius:2px;
-	vertical-align:top;
-	outline:none;
-
-}
-input[type="checkbox"]:checked{
-	border-color:#0ce;
-	width:18px;
-	height:18px;
-	background:#0ce url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAmklEQVQ4T9WTUQ3DMAxE3zEqhEEYhEIYhSHYIAxCoQxCIYzBTZbSKmnTSWm+5p/8+J59J0d0ljr1/CnA9ijpFfabLdgO4SBpaAYsYuAi6dMEsH0DxlxcAGy/o0FSvEWFZyAA6+SlYc3AdniagGsOSeJn8j1v4UWIW0gmjsm7zaoZZJAHcE9rV8WHIR7ZqZ198x38zODMx+re4Av+4zsReOyeoAAAAABJRU5ErkJggg==') 50% 50% no-repeat;
-	background-size:100% auto;
-}
 button[type="button"]{
-	appearance:transparent;
-	-webkit-appearance:transparent;
 	width:auto;
+	text-align:center;
 	margin-left:8px;
-	padding:0 10px;
-	height:26px;
-	line-height:26px;
+	margin-top:15px;
+	height:40px;
 	background:#f3ab26;
 	color:#fff;
 	border:0;

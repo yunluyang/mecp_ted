@@ -57,20 +57,20 @@ public abstract class BaseDetectionDevice<M extends BaseDetectionDevice<M>> exte
 		return getStr("device_number");
 	}
 
-	public void setCalibrationReport(java.lang.String calibrationReport) {
-		set("calibration_report", calibrationReport);
+	public void setCalibrationReportId(java.lang.Integer calibrationReportId) {
+		set("calibration_report_id", calibrationReportId);
 	}
 	
-	public java.lang.String getCalibrationReport() {
-		return getStr("calibration_report");
+	public java.lang.Integer getCalibrationReportId() {
+		return getInt("calibration_report_id");
 	}
 
-	public void setAvatar(java.lang.String avatar) {
-		set("avatar", avatar);
+	public void setFileName(java.lang.String fileName) {
+		set("file_name", fileName);
 	}
 	
-	public java.lang.String getAvatar() {
-		return getStr("avatar");
+	public java.lang.String getFileName() {
+		return getStr("file_name");
 	}
 
 }

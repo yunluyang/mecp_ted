@@ -18,6 +18,15 @@ public class UserService {
 		return dao.find("select * from user");
 	}
 	
+	//查找所有管理员和超级管理员
+	public List<User> findAllAdmin(){
+		return dao.find("select * from user where rid = 1 or  rid = 2");
+	}
+	
+	public User findUserByName(String username){
+		return dao.findFirst("select * from user where username = ?",username);
+	}
+	
 	public int countUser(){
 		return dao.find("select * from user").size();
 	}
@@ -42,7 +51,7 @@ public class UserService {
 	
 	
 	public User findByUserName(String userName) {
-		String sql = "select * from user where userName = ?";
+		String sql = "select * from user where userName = ? order by id desc";
 		return dao.findFirst(sql, userName);
 	}
 

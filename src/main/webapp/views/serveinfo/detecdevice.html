@@ -1,0 +1,159 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>检测设备信息录入</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="../../../layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="../../../layuiadmin/style/admin.css" media="all">
+</head>
+<body>
+
+  <div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+      <div class="layui-col-md12">
+        <div class="layui-card">
+         <div class="layui-btn-group test-table-operate-btn" style="margin-bottom: 10px;">
+              				<button class="layui-btn" data-type="getCheckData" id="addbtn">添加设备</button>
+              				<a href="/pdfjs/web/viewer.html?file=/pdf/pdf_test.pdf" title="点击浏览杂志" target="_blank">aaaaaa</a>
+            			</div>
+          <div class="layui-card-body">
+            <table class="layui-hide" id="test-table-cellEdit" lay-filter="test-table-cellEdit"></table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="../../../layuiadmin/layui/layui.js"></script>  
+  <script type="text/javascript" id="download">
+		{{ formatdownload(d) }}
+	</script>
+  <script type="text/html" id="table-serverinfo">
+        <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon layui-icon-delete"></i>删除</a>
+   </script>
+   <script type="text/javascript">
+		function formatdownload(obj) {
+			var html = '';
+			if (obj.calibration_report_id == ''||obj.calibration_report_id == null) {
+				
+			}else {
+				html = "<a class='layui-btn layui-btn-radius layui-btn-normal  layui-btn-xs' href='/pdfjs/web/viewer.html?file=/upload/detecdevice/"+obj.file_name+"' title='点击查看报告' target='_blank'>查看报告</a>"
+				}
+			return html;
+		}
+	</script>
+   
+  <script>
+  layui.config({
+    base: '../../../layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index', 'jquery','table','upload'], function(){
+    var table = layui.table,$ = layui.$;
+    var upload = layui.upload;
+    table.render({
+      elem: '#test-table-cellEdit'
+      ,url: '/common/getDetectionDevice'
+      ,page:true
+      ,cols: [[
+        {field:'id', title:'ID', width:120, sort: true}
+        ,{field:'device_name', title:'设备名称', sort: true, edit: 'text'}
+        ,{field:'vender', title:'设备厂家', sort: true, edit: 'text'}
+        ,{field:'model', title:'设备型号',sort: true, edit: 'text'}
+        ,{field:'parameter', title:'主要参数',sort: true, edit: 'text'}
+        ,{field:'device_number', title:'设备编号',sort: true, edit: 'text'}
+        ,{title:'查看报告',sort: true, templet : '#download'}
+        , {
+			align : 'center',
+			title : '操作',
+			fixed : 'right',
+			templet : '#table-serverinfo'
+		}
+      ]]
+    });
+
+    
+    $('#addbtn').click(function(){
+		  layer.open({
+	          type: 2
+	          ,title: '添加服务'
+	          ,content: '/views/serveinfo/addDetecDeviceform.html'
+	          ,area: ['450px', '450px']
+	          ,btn: ['确定', '取消']
+	          ,yes: function(index, layero){
+	            var iframeWindow = window['layui-layer-iframe'+ index]
+	            ,submitID = 'LAY-app-workorder-submit'
+	            ,submit = layero.find('iframe').contents().find('#'+ submitID);
+
+	            //监听提交
+	            iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
+	              var field = data.field; //获取提交的字段
+	              console.dir(field);
+	              //提交 Ajax 成功后，静态更新表格中的数据
+	                $.get("/common/addDetecDevice",field
+			                ,function(data,status){
+	                			  console.dir(data);
+	                			  if(data.code==0){
+	                				  layer.msg('添加成功');
+		      			              table.reload('test-table-cellEdit'); //数据刷新
+		    			              layer.close(index); //关闭弹层
+		                			  }else{
+		                    				layer.msg('添加失败', {icon: 5});
+			                			  }
+							});
+	            });  
+	            
+	            submit.trigger('click');
+	          }
+	          ,success: function(layero, index){
+
+	          }
+	        });
+
+		  });
+
+
+    //监听工具条
+    table.on('tool(test-table-cellEdit)', function(obj){
+      var data = obj.data;
+      if(obj.event === 'del'){
+        layer.confirm('真的删除行么', function(index){
+        	 $.get("/common/deletDetecDevice",data
+                     ,function(data,status){
+             			  if(data.code==0){
+             		          obj.del();
+             				  layer.msg('删除成功');
+                 			  }else{
+                    				layer.msg('更新失败', {icon: 5});
+                     			  }
+       				});
+          layer.close(index);
+        });
+      }
+    });
+    
+    //监听单元格编辑
+    table.on('edit(test-table-cellEdit)', function(obj){
+      var value = obj.value //得到修改后的值
+      ,data = obj.data //得到所在行所有键值
+      ,field = obj.field; //得到字段
+      $.get("/common/editDetectionDevice",data
+              ,function(data,status){
+      			  console.dir(data);
+      			  if(data.code==0){
+      				  layer.msg('更新成功');
+          			  }else{
+          				layer.msg('更新失败', {icon: 5});
+              			  }
+				});
+    });
+    
+  });
+  </script>
+</body>
+</html>
